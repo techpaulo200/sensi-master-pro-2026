@@ -16,8 +16,6 @@ O **Sensi Master Pro** é a ferramenta definitiva de calibração para jogadores
 * **🔄 Atualizações Frequentes:** O app verifica novas configurações toda vez que é iniciado.
 * **🎨 Interface Premium:** Nova Splash Screen (tela de carregamento) e animações suaves.
 
-## 🗺️ Roadmap de Desenvolvimento 2026
-
 ---
 
 ## 🗺️ Roadmap de Desenvolvimento 2026/27 (Expandido)
