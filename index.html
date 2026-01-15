@@ -1,0 +1,258 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Sensi Master Pro</title>
+    <style>
+        :root { 
+            --blue: #0080ff; 
+            --green: #00FF41; 
+            --bg: #050505; 
+            --card-bg: #0f0f0f;
+        }
+        
+        * { box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
+        
+        body { 
+            background: var(--bg); 
+            color: #fff; 
+            margin: 0; 
+            padding: 15px; 
+            text-align: center; 
+        }
+
+        .card { 
+            background: var(--card-bg); 
+            border: 1px solid #222; 
+            border-radius: 20px; 
+            padding: 20px; 
+            margin-bottom: 20px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .orb { 
+            width: 50px; 
+            height: 50px; 
+            background: var(--blue); 
+            border-radius: 50%; 
+            margin: 0 auto 15px; 
+            box-shadow: 0 0 25px var(--blue); 
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        
+        .info-box { 
+            background: #111; 
+            border: 1px solid #222; 
+            padding: 12px; 
+            border-radius: 12px; 
+        }
+        
+        .info-box small { color: #888; font-size: 10px; text-transform: uppercase; }
+        .info-box b { color: var(--green); font-size: 14px; display: block; margin-top: 4px; }
+
+        select { 
+            width: 100%; 
+            background: #111; 
+            color: #fff; 
+            border: 1px solid #333; 
+            padding: 16px; 
+            border-radius: 14px; 
+            margin-bottom: 12px; 
+            outline: none; 
+            font-size: 16px;
+        }
+
+        .grid { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 10px; 
+            margin-top: 15px; 
+        }
+
+        .box { 
+            background: #000; 
+            border: 1px solid #222; 
+            padding: 15px 5px; 
+            border-radius: 12px; 
+            transition: 0.3s;
+        }
+        
+        .box i { font-style: normal; font-size: 11px; color: #777; display: block; margin-bottom: 5px; }
+        .box b { font-size: 18px; color: #fff; }
+
+        /* Barra de Progresso */
+        .progress-container {
+            width: 100%;
+            background-color: #1a1a1a;
+            border-radius: 10px;
+            margin: 20px 0;
+            display: none;
+            overflow: hidden;
+            border: 1px solid #333;
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 8px;
+            background: linear-gradient(90deg, var(--blue), var(--green));
+            transition: width 0.1s;
+        }
+
+        .btn { 
+            background: var(--blue); 
+            color: #fff; 
+            border: none; 
+            width: 100%; 
+            padding: 20px; 
+            border-radius: 15px; 
+            font-weight: bold; 
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        .btn-copy {
+            background: transparent;
+            border: 1px solid var(--blue);
+            color: var(--blue);
+            padding: 12px;
+            border-radius: 12px;
+            margin-top: 15px;
+            width: 100%;
+            cursor: pointer;
+            font-size: 13px;
+            display: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <div class="orb"></div>
+        <div id="status" style="color:var(--blue); font-weight:bold; letter-spacing: 1px;">SISTEMA CALIBRADO</div>
+    </div>
+
+    <div class="info-grid">
+        <div class="info-box"><small>RAM DISPONÍVEL</small><b id="ram">--</b></div>
+        <div class="info-box"><small>ESTADO</small><b>PROTEGIDO</b></div>
+    </div>
+
+    <select id="marca" onchange="carregar()">
+        <option value="">SELECIONE A MARCA</option>
+        <option value="Samsung">SAMSUNG</option>
+        <option value="Motorola">MOTOROLA</option>
+        <option value="Xiaomi">XIAOMI</option>
+        <option value="Outros">OUTROS</option>
+    </select>
+
+    <select id="modelo">
+        <option value="">MODELO</option>
+    </select>
+
+    <div class="progress-container" id="pContainer">
+        <div class="progress-bar" id="pBar"></div>
+    </div>
+
+    <div class="grid">
+        <div class="box"><i>GERAL</i><b id="v1">0</b></div>
+        <div class="box"><i>RED DOT</i><b id="v2">0</b></div>
+        <div class="box"><i>2X</i><b id="v3">0</b></div>
+        <div class="box"><i>4X</i><b id="v4">0</b></div>
+        <div class="box"><i>AWM</i><b id="v5">0</b></div>
+        <div class="box"><i>DPI</i><b id="v6" style="color:var(--green)">0</b></div>
+    </div>
+
+    <button class="btn" onclick="aplicar()">APLICAR AGORA</button>
+    <button id="btnCopiar" class="btn-copy" onclick="copiarTexto()">COPIAR CONFIGURAÇÃO</button>
+
+    <script>
+        const db = { 
+            "Samsung": ["A01", "A03", "A10", "A31", "S23 Ultra"], 
+            "Motorola": ["Moto G05", "Moto G20", "Moto G60", "Moto Edge"],
+            "Xiaomi": ["Redmi Note 10", "Poco X3", "Poco F4"], 
+            "Outros": ["LG K Series", "Infinix", "Realme"] 
+        };
+
+        function carregar() {
+            const m = document.getElementById('marca').value;
+            const s = document.getElementById('modelo');
+            s.innerHTML = '<option value="">MODELO</option>';
+            if(m && db[m]) {
+                db[m].forEach(i => { 
+                    let o = document.createElement('option'); 
+                    o.value = i; o.text = i; s.appendChild(o); 
+                });
+                document.getElementById('ram').innerText = (m === "Samsung") ? "2.4 GB" : "3.8 GB";
+            }
+        }
+
+        function aplicar() {
+            const m = document.getElementById('marca').value;
+            const mod = document.getElementById('modelo').value;
+            const btn = document.querySelector('.btn');
+            const pContainer = document.getElementById('pContainer');
+            const pBar = document.getElementById('pBar');
+            const btnCopiar = document.getElementById('btnCopiar');
+
+            if(!mod) return alert("Por favor, selecione o modelo!");
+
+            btn.disabled = true;
+            btn.innerText = "OTIMIZANDO...";
+            pContainer.style.display = "block";
+            
+            let progresso = 0;
+            const intervalo = setInterval(() => {
+                progresso += 2;
+                pBar.style.width = progresso + "%";
+
+                if (progresso >= 100) {
+                    clearInterval(intervalo);
+                    
+                    // Valores sugeridos
+                    document.getElementById('v1').innerText = "97";
+                    document.getElementById('v2').innerText = "100";
+                    document.getElementById('v3').innerText = "95";
+                    document.getElementById('v4').innerText = "100";
+                    document.getElementById('v5').innerText = "42";
+                    
+                    // DPI Específica
+                    const dpiFinal = (m === "Motorola") ? "595" : "720";
+                    document.getElementById('v6').innerText = dpiFinal;
+                    
+                    document.getElementById('status').innerText = "SENSI APLICADA!";
+                    document.getElementById('status').style.color = "var(--green)";
+                    btn.innerText = "CONCLUÍDO";
+                    btn.style.background = "var(--green)";
+                    btnCopiar.style.display = "block";
+                }
+            }, 30);
+        }
+
+        function copiarTexto() {
+            const g = document.getElementById('v1').innerText;
+            const rd = document.getElementById('v2').innerText;
+            const x2 = document.getElementById('v3').innerText;
+            const x4 = document.getElementById('v4').innerText;
+            const dpi = document.getElementById('v6').innerText;
+
+            const texto = `🔥 SENSI MASTER PRO 🔥\n\nGERAL: ${g}\nRED DOT: ${rd}\n2X: ${x2}\n4X: ${x4}\nDPI: ${dpi}\n\nConfigurado com Sucesso!`;
+
+            navigator.clipboard.writeText(texto).then(() => {
+                alert("Copiado! Agora cole nas configurações do seu jogo.");
+            });
+        }
+    </script>
+</body>
+</html>
