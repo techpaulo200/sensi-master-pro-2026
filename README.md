@@ -18,12 +18,23 @@ O **Sensi Master Pro** é a ferramenta definitiva de calibração para jogadores
 
 ## 🗺️ Roadmap de Desenvolvimento 2026
 
+---
+
+## 🗺️ Roadmap de Desenvolvimento 2026/27 (Expandido)
+
+O projeto **Sensi Master Pro** segue um cronograma rigoroso de evolução para se manter como a ferramenta nº 1 em calibração.
+
 - [x] **v2.1:** Sistema de aviso de atualizações frequentes.
-- [x] **v2.2:** Adição de marcas antigas e suporte Sensi 200 (Versão Atual)
-- [ ] **v2.3:** Otimização de Cache e Animações Booster (Próxima Atualização)
-- [ ] **v2.5:** Temas Personalizados (Modo Ouro/VIP) e Botão de Cópia
-- [ ] **v3.0:** Algoritmo de Sensi por Estilo de Jogo (Rush/Sniper)
-- [ ] **v4.0:** Expansão Global Multi-idioma e Database Internacional.
+- [x] **v2.2:** Adição de marcas antigas e suporte Sensi 200 (**Versão Atual**).
+- [ ] **v2.3:** **Performance Update:** Motor de Otimização de Cache e Animações Booster.
+- [ ] **v2.5:** **VIP Experience:** Temas Personalizados (Modo Ouro), Botão de Cópia e Modo Offline.
+- [ ] **v3.0:** **Engine AI:** Algoritmo de identificação de estilo de jogo (Rush/Sniper).
+- [ ] **v3.5:** **Community Hub:** Ranking das sensibilidades mais votadas pela comunidade.
+- [ ] **v4.0:** **Global Launch:** Tradução para 3 idiomas e Database Internacional.
+- [ ] **v4.5:** **Cloud Sync:** Sincronização de configurações favoritas na nuvem.
+- [ ] **v5.0:** **Master Academy:** Guias de treinamento de mira e tutoriais avançados.
+
+---
 
 ## 🛠️ Como Instalar e Usar
 
