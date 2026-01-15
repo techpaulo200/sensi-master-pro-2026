@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Sensi Master Pro v2.0</title>
+    <title>Sensi Master Pro v2.2 - Ultimate</title>
     <style>
         :root { 
             --blue: #0080ff; 
@@ -16,7 +16,7 @@
         * { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background: var(--bg); color: #fff; margin: 0; padding: 0; overflow-x: hidden; }
 
-        /* TELA DE CARREGAMENTO (SPLASH SCREEN) */
+        /* TELA DE CARREGAMENTO */
         #splash {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -35,15 +35,23 @@
         /* CONTEÚDO PRINCIPAL */
         .container { padding: 15px; display: none; }
         .header { padding: 20px 0; text-align: center; }
-        .version { font-size: 10px; color: var(--blue); border: 1px solid var(--blue); padding: 2px 8px; border-radius: 10px; }
+        .version { font-size: 10px; color: var(--blue); border: 1px solid var(--blue); padding: 2px 8px; border-radius: 10px; font-weight: bold; }
+        
+        .update-badge {
+            color: var(--green);
+            font-size: 11px;
+            margin-top: 10px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            animation: blink 1.5s infinite;
+        }
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
 
         .card { background: var(--card-bg); border: 1px solid #222; border-radius: 20px; padding: 20px; margin-bottom: 15px; }
         
-        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-        .info-box { background: #111; border: 1px solid #222; padding: 10px; border-radius: 12px; text-align: center; }
-        .info-box small { color: var(--text-gray); font-size: 10px; }
-        .info-box b { color: var(--green); font-size: 13px; display: block; }
-
         select { 
             width: 100%; background: #111; color: #fff; border: 1px solid #333; 
             padding: 15px; border-radius: 14px; margin-bottom: 10px; outline: none; font-size: 15px;
@@ -52,22 +60,16 @@
         .grid-sensi { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 15px 0; }
         .box-sensi { background: #000; border: 1px solid #222; padding: 12px 5px; border-radius: 12px; text-align: center; }
         .box-sensi i { font-style: normal; font-size: 10px; color: var(--text-gray); display: block; }
-        .box-sensi b { font-size: 16px; color: #fff; }
+        .box-sensi b { font-size: 18px; color: #fff; }
 
-        /* BARRA DE PROGRESSO */
         .p-container { width: 100%; background: #1a1a1a; border-radius: 10px; height: 6px; margin: 15px 0; display: none; overflow: hidden; }
         .p-bar { width: 0%; height: 100%; background: var(--blue); transition: 0.1s; }
 
         .btn-main { 
             background: var(--blue); color: #fff; border: none; width: 100%; 
             padding: 18px; border-radius: 15px; font-weight: bold; cursor: pointer;
+            transition: 0.3s;
         }
-
-        /* DIRETRIZES / FOOTER */
-        .footer-links { margin-top: 25px; border-top: 1px solid #222; padding-top: 15px; }
-        .git-link { color: var(--text-gray); text-decoration: none; font-size: 12px; display: inline-flex; align-items: center; gap: 5px; }
-        .git-link:hover { color: var(--blue); }
-
     </style>
 </head>
 <body>
@@ -75,28 +77,28 @@
     <div id="splash">
         <div class="logo-main">SENSI MASTER PRO</div>
         <div class="loader"></div>
-        <p style="color: #555; font-size: 12px; margin-top: 15px;">CARREGANDO BANCO DE DADOS...</p>
+        <p style="color: #555; font-size: 12px; margin-top: 15px;">SINCRONIZANDO DATABASE 2026...</p>
     </div>
 
     <div class="container" id="mainContent">
         <div class="header">
-            <span class="version">V2.0 ATUALIZADA</span>
-            <h2 style="margin: 10px 0 5px 0;">Painel de Calibração</h2>
-            <p style="color: var(--text-gray); font-size: 12px;">Otimização para modelos Antigos e Novos</p>
-        </div>
-
-        <div class="info-grid">
-            <div class="info-box"><small>STATUS</small><b>DATABASE 2026</b></div>
-            <div class="info-box"><small>LATÊNCIA</small><b>1ms (VIP)</b></div>
+            <span class="version">V2.2 ULTIMATE</span>
+            <div class="update-badge">● SENSI 200 ATIVADA</div>
+            <h2 style="margin: 15px 0 5px 0;">Calibração Global</h2>
         </div>
 
         <div class="card">
             <select id="marca" onchange="atualizarModelos()">
-                <option value="">ESCOLHA A MARCA</option>
+                <option value="">MARCA</option>
                 <option value="SAMSUNG">SAMSUNG</option>
                 <option value="MOTOROLA">MOTOROLA</option>
                 <option value="XIAOMI">XIAOMI</option>
-                <option value="IPHONE">IPHONE</option>
+                <option value="IPHONE">IPHONE (APPLE)</option>
+                <option value="INFINIX">INFINIX</option>
+                <option value="REALME">REALME</option>
+                <option value="LG">LG (ANTIGOS)</option>
+                <option value="NOKIA">NOKIA</option>
+                <option value="HUAWEI">HUAWEI</option>
                 <option value="OUTROS">OUTRAS MARCAS</option>
             </select>
 
@@ -109,48 +111,50 @@
             </div>
 
             <div class="grid-sensi">
-                <div class="box-sensi"><i>GERAL</i><b id="v1">--</b></div>
-                <div class="box-sensi"><i>RED DOT</i><b id="v2">--</b></div>
-                <div class="box-sensi"><i>2X</i><b id="v3">--</b></div>
-                <div class="box-sensi"><i>4X</i><b id="v4">--</b></div>
-                <div class="box-sensi"><i>AWM</i><b id="v5">--</b></div>
-                <div class="box-sensi"><i>DPI</i><b id="v6" style="color:var(--green)">--</b></div>
+                <div class="box-sensi"><i>GERAL</i><b id="v1">0</b></div>
+                <div class="box-sensi"><i>RED DOT</i><b id="v2">0</b></div>
+                <div class="box-sensi"><i>2X</i><b id="v3">0</b></div>
+                <div class="box-sensi"><i>4X</i><b id="v4">0</b></div>
+                <div class="box-sensi"><i>AWM</i><b id="v5">0</b></div>
+                <div class="box-sensi"><i>DPI</i><b id="v6" style="color:var(--green)">0</b></div>
             </div>
 
-            <button class="btn-main" onclick="gerarSensi()">CALIBRAR ATUALIZAÇÃO</button>
+            <button class="btn-main" onclick="gerarSensi()">CALIBRAR AGORA</button>
         </div>
 
-        <div class="footer-links">
-            <a href="https://github.com/techpaulo200/sensi-master-pro-2026" class="git-link" target="_blank">
-                🌐 Ver Diretrizes e Termos (GitHub)
+        <div style="text-align:center; padding: 20px;">
+            <a href="https://github.com/techpaulo200/sensi-master-pro-2026" style="color:#555; text-decoration:none; font-size:11px;">
+                Diretrizes do Desenvolvedor: techpaulo200
             </a>
         </div>
     </div>
 
     <script>
-        // BANCO DE DADOS ATUALIZADO (NOVOS E ANTIGOS)
         const database = {
-            "SAMSUNG": ["A01 (Antigo)", "A10", "A32", "A54 5G", "S10 Plus", "S23 Ultra", "S24 Ultra (Novo)"],
-            "MOTOROLA": ["Moto G5 (Antigo)", "Moto G22", "Moto G60", "Moto G84", "Edge 40", "Edge 50 Pro (Novo)"],
-            "XIAOMI": ["Redmi 7 (Antigo)", "Note 10", "Note 12", "Poco X5", "Poco F5 Pro", "Xiaomi 14 (Novo)"],
-            "IPHONE": ["iPhone 8", "iPhone 11", "iPhone 13", "iPhone 15 Pro Max (Novo)"],
-            "OUTROS": ["Infinix Note 30", "Realme C55", "LG K Series", "Huawei P60"]
+            "SAMSUNG": ["Galaxy A01", "Galaxy J7 Prime", "Galaxy A10", "Galaxy A54", "Galaxy S23 Ultra", "Galaxy S24 Ultra", "Galaxy S25 (Próximo)"],
+            "MOTOROLA": ["Moto G1", "Moto G5 Plus", "Moto G22", "Moto G60", "Moto G84", "Edge 50 Pro", "Razr 50 Ultra"],
+            "XIAOMI": ["Redmi Note 4", "Redmi Note 8", "Redmi Note 12", "Poco X3 Pro", "Poco F5 Pro", "Xiaomi 14 Ultra", "Xiaomi 15 (Novo)"],
+            "IPHONE": ["iPhone 6s", "iPhone 8 Plus", "iPhone 11", "iPhone 13 Pro", "iPhone 15 Pro Max", "iPhone 16 Pro", "iPhone 17 (Alpha)"],
+            "INFINIX": ["Infinix Hot 11", "Infinix Note 30 5G", "Infinix Zero Ultra"],
+            "REALME": ["Realme C55", "Realme 11 Pro+", "Realme GT 5"],
+            "LG": ["LG K10", "LG K41s", "LG K62", "LG Velvet"],
+            "NOKIA": ["Nokia G21", "Nokia X30", "Nokia XR21"],
+            "HUAWEI": ["P30 Lite", "P60 Pro", "Mate 60 Pro"],
+            "OUTROS": ["Asus ROG Phone 8", "ZTE Nubia RedMagic", "Google Pixel 8"]
         };
 
-        // SIMULAR SPLASH SCREEN
         setTimeout(() => {
             document.getElementById('splash').style.opacity = '0';
             setTimeout(() => {
                 document.getElementById('splash').style.display = 'none';
                 document.getElementById('mainContent').style.display = 'block';
             }, 500);
-        }, 3000); // 3 Segundos de Splash
+        }, 3000);
 
         function atualizarModelos() {
             const marca = document.getElementById('marca').value;
             const selectMod = document.getElementById('modelo');
             selectMod.innerHTML = '<option value="">MODELO</option>';
-            
             if(marca && database[marca]) {
                 database[marca].forEach(m => {
                     let opt = document.createElement('option');
@@ -163,14 +167,14 @@
         function gerarSensi() {
             const mod = document.getElementById('modelo').value;
             const marca = document.getElementById('marca').value;
-            if(!mod) return alert("Selecione o dispositivo!");
+            if(!mod) return alert("Selecione o modelo!");
 
             const btn = document.querySelector('.btn-main');
             const pCont = document.getElementById('pContainer');
             const pBar = document.getElementById('pBar');
 
             btn.disabled = true;
-            btn.innerText = "CALCULANDO DPI...";
+            btn.innerText = "BUSCANDO SENSI 200...";
             pCont.style.display = "block";
 
             let prog = 0;
@@ -179,26 +183,21 @@
                 pBar.style.width = prog + "%";
                 if(prog >= 100) {
                     clearInterval(timer);
-                    btn.innerText = "CONFIGURAÇÃO APLICADA!";
+                    btn.innerText = "CONCLUÍDO";
                     btn.style.background = "var(--green)";
                     
-                    // LÓGICA DE SENSIBILIDADE ATUALIZADA 2026
-                    document.getElementById('v1').innerText = Math.floor(Math.random() * (100 - 92) + 92); // Geral alta
-                    document.getElementById('v2').innerText = "100";
-                    document.getElementById('v3').innerText = "98";
-                    document.getElementById('v4').innerText = "100";
-                    document.getElementById('v5').innerText = "50";
+                    // VALORES DE SENSIBILIDADE EM 200
+                    document.getElementById('v1').innerText = "200";
+                    document.getElementById('v2').innerText = "200";
+                    document.getElementById('v3').innerText = "198";
+                    document.getElementById('v4').innerText = "200";
+                    document.getElementById('v5').innerText = "140";
                     
-                    // Lógica de DPI baseada na marca
-                    let dpi;
-                    if(marca === "MOTOROLA") dpi = "595";
-                    else if(marca === "SAMSUNG") dpi = "720";
-                    else if(marca === "IPHONE") dpi = "Móvel: 120";
-                    else dpi = "600";
-                    
+                    // DPI PERSONALIZADA
+                    let dpi = (marca === "MOTOROLA") ? "595" : (marca === "SAMSUNG") ? "1440 ou 1600" : (marca === "IPHONE") ? "120" : "600";
                     document.getElementById('v6').innerText = dpi;
                 }
-            }, 40);
+            }, 30);
         }
     </script>
 </body>
