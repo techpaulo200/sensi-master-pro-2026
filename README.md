@@ -1,45 +1,39 @@
-# 🎯 Sensi Master Pro v2.0 🎯
+# 🎯 Sensi Master Pro v2.2 - Ultimate Edition 🚀
 
 ![Status](https://img.shields.io/badge/Status-Ativo-brightgreen)
-![Versão](https://img.shields.io/badge/Versão-2.0%20Atualizada-blue)
-![Plataforma](https://img.shields.io/badge/Plataforma-Android-orange)
+![Versão](https://img.shields.io/badge/Versão-2.2%20Ultimate-blue)
+![Sensi](https://img.shields.io/badge/Sensi-200%20Máxima-red)
 
-O **Sensi Master Pro** é uma ferramenta avançada de calibração de sensibilidade e DPI desenvolvida para otimizar a experiência em jogos mobile. O sistema utiliza algoritmos baseados em modelos de dispositivos específicos, cobrindo desde aparelhos antigos até os lançamentos mais recentes de 2026.
-
----
-
-## 🚀 Funcionalidades Principais
-
-* **⚡ Splash Screen:** Interface de carregamento otimizada.
-* **📱 Database Ampla:** Configurações para Samsung, Motorola, Xiaomi, iPhone e mais.
-* **🎯 Precisão VIP:** Cálculos de Geral, Red Dot, 2X, 4X e AWM.
-* **🛠️ Ajuste de DPI:** Valores específicos para evitar travamentos (ex: trava de 595 em Motorola).
-* **📋 Botão de Cópia:** Facilidade para exportar suas configurações.
+O **Sensi Master Pro** é a ferramenta definitiva de calibração para jogadores que buscam a sensibilidade perfeita. Esta versão foi reconstruída do zero para oferecer suporte a dispositivos lendários (antigos) e os últimos lançamentos de 2026.
 
 ---
 
-## 🛠️ Como Usar o Aplicativo
+## 💎 Novidades da Versão 2.2
 
-1. Selecione a **Marca** do seu smartphone.
-2. Escolha o **Modelo** correspondente.
-3. Clique em **CALIBRAR ATUALIZAÇÃO**.
-4. Aguarde o processamento do sistema.
-5. Aplique os valores gerados manualmente nas configurações do seu jogo e nas opções de desenvolvedor (DPI).
+* **🔥 Sistema Sensi 200:** Algoritmo atualizado para suportar valores de sensibilidade até 200.
+* **📱 Database Global:** Inclui marcas como Samsung, Motorola, Xiaomi, iPhone, Infinix, Realme e até modelos clássicos da LG e Nokia.
+* **⚡ Novos Dispositivos:** Suporte antecipado para Galaxy S25, iPhone 17 e Xiaomi 15.
+* **🔄 Atualizações Frequentes:** O app verifica novas configurações toda vez que é iniciado.
+* **🎨 Interface Premium:** Nova Splash Screen (tela de carregamento) e animações suaves.
 
 ---
 
-## 📜 Diretrizes e Termos de Uso
+## 🛠️ Como Instalar e Usar
 
-Este aplicativo foi desenvolvido para fins de otimização de interface e auxílio na configuração de sensibilidade.
-* **Segurança:** O código é puramente HTML/JS e não acessa dados sensíveis do usuário.
-* **Uso:** A alteração de DPI é uma função nativa do Android e deve ser feita com cautela pelo usuário.
-* **Código Aberto:** Sinta-se à vontade para explorar o código aqui no repositório.
+1. **Baixe o APK:** Use o link gerado pelo WebIntoApp ou APK Builder.
+2. **Permissões:** Ao instalar, permita a instalação de "Fontes Desconhecidas" (o Android pede isso para apps fora da Play Store).
+3. **Calibre:** Selecione sua marca e modelo dentro do app.
+4. **Aplique:** Copie os valores de Geral, Red Dot e DPI para as configurações do seu sistema/jogo.
+
+---
+
+## 📜 Diretrizes e Segurança
+
+* **Compatibilidade:** Otimizado para Android 5.0 até o Android 15+.
+* **Segurança:** Aplicativo leve, focado em interface, sem coleta de dados privados.
+* **Uso Responsável:** As sugestões de DPI devem ser testadas individualmente conforme a tela do seu aparelho.
 
 ---
 
 ## 👨‍💻 Desenvolvedor
-
-Desenvolvido por **techpaulo200**. 
-Se você gostou deste projeto, deixe uma ⭐ no repositório!
-
----
+Criado com foco em performance por **techpaulo200**.
