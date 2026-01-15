@@ -1,257 +1,204 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Sensi Master Pro</title>
+    <title>Sensi Master Pro v2.0</title>
     <style>
         :root { 
             --blue: #0080ff; 
             --green: #00FF41; 
             --bg: #050505; 
             --card-bg: #0f0f0f;
+            --text-gray: #888;
         }
         
-        * { box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
+        * { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background: var(--bg); color: #fff; margin: 0; padding: 0; overflow-x: hidden; }
+
+        /* TELA DE CARREGAMENTO (SPLASH SCREEN) */
+        #splash {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+        .logo-main { font-size: 28px; font-weight: bold; color: var(--blue); text-shadow: 0 0 15px var(--blue); margin-bottom: 20px; }
+        .loader { width: 40px; height: 40px; border: 3px solid #222; border-top: 3px solid var(--blue); border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* CONTEÚDO PRINCIPAL */
+        .container { padding: 15px; display: none; }
+        .header { padding: 20px 0; text-align: center; }
+        .version { font-size: 10px; color: var(--blue); border: 1px solid var(--blue); padding: 2px 8px; border-radius: 10px; }
+
+        .card { background: var(--card-bg); border: 1px solid #222; border-radius: 20px; padding: 20px; margin-bottom: 15px; }
         
-        body { 
-            background: var(--bg); 
-            color: #fff; 
-            margin: 0; 
-            padding: 15px; 
-            text-align: center; 
-        }
-
-        .card { 
-            background: var(--card-bg); 
-            border: 1px solid #222; 
-            border-radius: 20px; 
-            padding: 20px; 
-            margin-bottom: 20px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
-        .orb { 
-            width: 50px; 
-            height: 50px; 
-            background: var(--blue); 
-            border-radius: 50%; 
-            margin: 0 auto 15px; 
-            box-shadow: 0 0 25px var(--blue); 
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.1); opacity: 0.7; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-        
-        .info-box { 
-            background: #111; 
-            border: 1px solid #222; 
-            padding: 12px; 
-            border-radius: 12px; 
-        }
-        
-        .info-box small { color: #888; font-size: 10px; text-transform: uppercase; }
-        .info-box b { color: var(--green); font-size: 14px; display: block; margin-top: 4px; }
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .info-box { background: #111; border: 1px solid #222; padding: 10px; border-radius: 12px; text-align: center; }
+        .info-box small { color: var(--text-gray); font-size: 10px; }
+        .info-box b { color: var(--green); font-size: 13px; display: block; }
 
         select { 
-            width: 100%; 
-            background: #111; 
-            color: #fff; 
-            border: 1px solid #333; 
-            padding: 16px; 
-            border-radius: 14px; 
-            margin-bottom: 12px; 
-            outline: none; 
-            font-size: 16px;
+            width: 100%; background: #111; color: #fff; border: 1px solid #333; 
+            padding: 15px; border-radius: 14px; margin-bottom: 10px; outline: none; font-size: 15px;
         }
 
-        .grid { 
-            display: grid; 
-            grid-template-columns: repeat(3, 1fr); 
-            gap: 10px; 
-            margin-top: 15px; 
+        .grid-sensi { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 15px 0; }
+        .box-sensi { background: #000; border: 1px solid #222; padding: 12px 5px; border-radius: 12px; text-align: center; }
+        .box-sensi i { font-style: normal; font-size: 10px; color: var(--text-gray); display: block; }
+        .box-sensi b { font-size: 16px; color: #fff; }
+
+        /* BARRA DE PROGRESSO */
+        .p-container { width: 100%; background: #1a1a1a; border-radius: 10px; height: 6px; margin: 15px 0; display: none; overflow: hidden; }
+        .p-bar { width: 0%; height: 100%; background: var(--blue); transition: 0.1s; }
+
+        .btn-main { 
+            background: var(--blue); color: #fff; border: none; width: 100%; 
+            padding: 18px; border-radius: 15px; font-weight: bold; cursor: pointer;
         }
 
-        .box { 
-            background: #000; 
-            border: 1px solid #222; 
-            padding: 15px 5px; 
-            border-radius: 12px; 
-            transition: 0.3s;
-        }
-        
-        .box i { font-style: normal; font-size: 11px; color: #777; display: block; margin-bottom: 5px; }
-        .box b { font-size: 18px; color: #fff; }
+        /* DIRETRIZES / FOOTER */
+        .footer-links { margin-top: 25px; border-top: 1px solid #222; padding-top: 15px; }
+        .git-link { color: var(--text-gray); text-decoration: none; font-size: 12px; display: inline-flex; align-items: center; gap: 5px; }
+        .git-link:hover { color: var(--blue); }
 
-        /* Barra de Progresso */
-        .progress-container {
-            width: 100%;
-            background-color: #1a1a1a;
-            border-radius: 10px;
-            margin: 20px 0;
-            display: none;
-            overflow: hidden;
-            border: 1px solid #333;
-        }
-
-        .progress-bar {
-            width: 0%;
-            height: 8px;
-            background: linear-gradient(90deg, var(--blue), var(--green));
-            transition: width 0.1s;
-        }
-
-        .btn { 
-            background: var(--blue); 
-            color: #fff; 
-            border: none; 
-            width: 100%; 
-            padding: 20px; 
-            border-radius: 15px; 
-            font-weight: bold; 
-            font-size: 16px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .btn:disabled { opacity: 0.6; cursor: not-allowed; }
-
-        .btn-copy {
-            background: transparent;
-            border: 1px solid var(--blue);
-            color: var(--blue);
-            padding: 12px;
-            border-radius: 12px;
-            margin-top: 15px;
-            width: 100%;
-            cursor: pointer;
-            font-size: 13px;
-            display: none;
-            font-weight: bold;
-        }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <div class="orb"></div>
-        <div id="status" style="color:var(--blue); font-weight:bold; letter-spacing: 1px;">SISTEMA CALIBRADO</div>
+    <div id="splash">
+        <div class="logo-main">SENSI MASTER PRO</div>
+        <div class="loader"></div>
+        <p style="color: #555; font-size: 12px; margin-top: 15px;">CARREGANDO BANCO DE DADOS...</p>
     </div>
 
-    <div class="info-grid">
-        <div class="info-box"><small>RAM DISPONÍVEL</small><b id="ram">--</b></div>
-        <div class="info-box"><small>ESTADO</small><b>PROTEGIDO</b></div>
+    <div class="container" id="mainContent">
+        <div class="header">
+            <span class="version">V2.0 ATUALIZADA</span>
+            <h2 style="margin: 10px 0 5px 0;">Painel de Calibração</h2>
+            <p style="color: var(--text-gray); font-size: 12px;">Otimização para modelos Antigos e Novos</p>
+        </div>
+
+        <div class="info-grid">
+            <div class="info-box"><small>STATUS</small><b>DATABASE 2026</b></div>
+            <div class="info-box"><small>LATÊNCIA</small><b>1ms (VIP)</b></div>
+        </div>
+
+        <div class="card">
+            <select id="marca" onchange="atualizarModelos()">
+                <option value="">ESCOLHA A MARCA</option>
+                <option value="SAMSUNG">SAMSUNG</option>
+                <option value="MOTOROLA">MOTOROLA</option>
+                <option value="XIAOMI">XIAOMI</option>
+                <option value="IPHONE">IPHONE</option>
+                <option value="OUTROS">OUTRAS MARCAS</option>
+            </select>
+
+            <select id="modelo">
+                <option value="">MODELO</option>
+            </select>
+
+            <div class="p-container" id="pContainer">
+                <div class="p-bar" id="pBar"></div>
+            </div>
+
+            <div class="grid-sensi">
+                <div class="box-sensi"><i>GERAL</i><b id="v1">--</b></div>
+                <div class="box-sensi"><i>RED DOT</i><b id="v2">--</b></div>
+                <div class="box-sensi"><i>2X</i><b id="v3">--</b></div>
+                <div class="box-sensi"><i>4X</i><b id="v4">--</b></div>
+                <div class="box-sensi"><i>AWM</i><b id="v5">--</b></div>
+                <div class="box-sensi"><i>DPI</i><b id="v6" style="color:var(--green)">--</b></div>
+            </div>
+
+            <button class="btn-main" onclick="gerarSensi()">CALIBRAR ATUALIZAÇÃO</button>
+        </div>
+
+        <div class="footer-links">
+            <a href="https://github.com/techpaulo200/sensi-master-pro-2026" class="git-link" target="_blank">
+                🌐 Ver Diretrizes e Termos (GitHub)
+            </a>
+        </div>
     </div>
-
-    <select id="marca" onchange="carregar()">
-        <option value="">SELECIONE A MARCA</option>
-        <option value="Samsung">SAMSUNG</option>
-        <option value="Motorola">MOTOROLA</option>
-        <option value="Xiaomi">XIAOMI</option>
-        <option value="Outros">OUTROS</option>
-    </select>
-
-    <select id="modelo">
-        <option value="">MODELO</option>
-    </select>
-
-    <div class="progress-container" id="pContainer">
-        <div class="progress-bar" id="pBar"></div>
-    </div>
-
-    <div class="grid">
-        <div class="box"><i>GERAL</i><b id="v1">0</b></div>
-        <div class="box"><i>RED DOT</i><b id="v2">0</b></div>
-        <div class="box"><i>2X</i><b id="v3">0</b></div>
-        <div class="box"><i>4X</i><b id="v4">0</b></div>
-        <div class="box"><i>AWM</i><b id="v5">0</b></div>
-        <div class="box"><i>DPI</i><b id="v6" style="color:var(--green)">0</b></div>
-    </div>
-
-    <button class="btn" onclick="aplicar()">APLICAR AGORA</button>
-    <button id="btnCopiar" class="btn-copy" onclick="copiarTexto()">COPIAR CONFIGURAÇÃO</button>
 
     <script>
-        const db = { 
-            "Samsung": ["A01", "A03", "A10", "A31", "S23 Ultra"], 
-            "Motorola": ["Moto G05", "Moto G20", "Moto G60", "Moto Edge"],
-            "Xiaomi": ["Redmi Note 10", "Poco X3", "Poco F4"], 
-            "Outros": ["LG K Series", "Infinix", "Realme"] 
+        // BANCO DE DADOS ATUALIZADO (NOVOS E ANTIGOS)
+        const database = {
+            "SAMSUNG": ["A01 (Antigo)", "A10", "A32", "A54 5G", "S10 Plus", "S23 Ultra", "S24 Ultra (Novo)"],
+            "MOTOROLA": ["Moto G5 (Antigo)", "Moto G22", "Moto G60", "Moto G84", "Edge 40", "Edge 50 Pro (Novo)"],
+            "XIAOMI": ["Redmi 7 (Antigo)", "Note 10", "Note 12", "Poco X5", "Poco F5 Pro", "Xiaomi 14 (Novo)"],
+            "IPHONE": ["iPhone 8", "iPhone 11", "iPhone 13", "iPhone 15 Pro Max (Novo)"],
+            "OUTROS": ["Infinix Note 30", "Realme C55", "LG K Series", "Huawei P60"]
         };
 
-        function carregar() {
-            const m = document.getElementById('marca').value;
-            const s = document.getElementById('modelo');
-            s.innerHTML = '<option value="">MODELO</option>';
-            if(m && db[m]) {
-                db[m].forEach(i => { 
-                    let o = document.createElement('option'); 
-                    o.value = i; o.text = i; s.appendChild(o); 
+        // SIMULAR SPLASH SCREEN
+        setTimeout(() => {
+            document.getElementById('splash').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('splash').style.display = 'none';
+                document.getElementById('mainContent').style.display = 'block';
+            }, 500);
+        }, 3000); // 3 Segundos de Splash
+
+        function atualizarModelos() {
+            const marca = document.getElementById('marca').value;
+            const selectMod = document.getElementById('modelo');
+            selectMod.innerHTML = '<option value="">MODELO</option>';
+            
+            if(marca && database[marca]) {
+                database[marca].forEach(m => {
+                    let opt = document.createElement('option');
+                    opt.value = m; opt.text = m;
+                    selectMod.appendChild(opt);
                 });
-                document.getElementById('ram').innerText = (m === "Samsung") ? "2.4 GB" : "3.8 GB";
             }
         }
 
-        function aplicar() {
-            const m = document.getElementById('marca').value;
+        function gerarSensi() {
             const mod = document.getElementById('modelo').value;
-            const btn = document.querySelector('.btn');
-            const pContainer = document.getElementById('pContainer');
-            const pBar = document.getElementById('pBar');
-            const btnCopiar = document.getElementById('btnCopiar');
+            const marca = document.getElementById('marca').value;
+            if(!mod) return alert("Selecione o dispositivo!");
 
-            if(!mod) return alert("Por favor, selecione o modelo!");
+            const btn = document.querySelector('.btn-main');
+            const pCont = document.getElementById('pContainer');
+            const pBar = document.getElementById('pBar');
 
             btn.disabled = true;
-            btn.innerText = "OTIMIZANDO...";
-            pContainer.style.display = "block";
-            
-            let progresso = 0;
-            const intervalo = setInterval(() => {
-                progresso += 2;
-                pBar.style.width = progresso + "%";
+            btn.innerText = "CALCULANDO DPI...";
+            pCont.style.display = "block";
 
-                if (progresso >= 100) {
-                    clearInterval(intervalo);
-                    
-                    // Valores sugeridos
-                    document.getElementById('v1').innerText = "97";
-                    document.getElementById('v2').innerText = "100";
-                    document.getElementById('v3').innerText = "95";
-                    document.getElementById('v4').innerText = "100";
-                    document.getElementById('v5').innerText = "42";
-                    
-                    // DPI Específica
-                    const dpiFinal = (m === "Motorola") ? "595" : "720";
-                    document.getElementById('v6').innerText = dpiFinal;
-                    
-                    document.getElementById('status').innerText = "SENSI APLICADA!";
-                    document.getElementById('status').style.color = "var(--green)";
-                    btn.innerText = "CONCLUÍDO";
+            let prog = 0;
+            const timer = setInterval(() => {
+                prog += 2;
+                pBar.style.width = prog + "%";
+                if(prog >= 100) {
+                    clearInterval(timer);
+                    btn.innerText = "CONFIGURAÇÃO APLICADA!";
                     btn.style.background = "var(--green)";
-                    btnCopiar.style.display = "block";
+                    
+                    // LÓGICA DE SENSIBILIDADE ATUALIZADA 2026
+                    document.getElementById('v1').innerText = Math.floor(Math.random() * (100 - 92) + 92); // Geral alta
+                    document.getElementById('v2').innerText = "100";
+                    document.getElementById('v3').innerText = "98";
+                    document.getElementById('v4').innerText = "100";
+                    document.getElementById('v5').innerText = "50";
+                    
+                    // Lógica de DPI baseada na marca
+                    let dpi;
+                    if(marca === "MOTOROLA") dpi = "595";
+                    else if(marca === "SAMSUNG") dpi = "720";
+                    else if(marca === "IPHONE") dpi = "Móvel: 120";
+                    else dpi = "600";
+                    
+                    document.getElementById('v6').innerText = dpi;
                 }
-            }, 30);
-        }
-
-        function copiarTexto() {
-            const g = document.getElementById('v1').innerText;
-            const rd = document.getElementById('v2').innerText;
-            const x2 = document.getElementById('v3').innerText;
-            const x4 = document.getElementById('v4').innerText;
-            const dpi = document.getElementById('v6').innerText;
-
-            const texto = `🔥 SENSI MASTER PRO 🔥\n\nGERAL: ${g}\nRED DOT: ${rd}\n2X: ${x2}\n4X: ${x4}\nDPI: ${dpi}\n\nConfigurado com Sucesso!`;
-
-            navigator.clipboard.writeText(texto).then(() => {
-                alert("Copiado! Agora cole nas configurações do seu jogo.");
-            });
+            }, 40);
         }
     </script>
 </body>
