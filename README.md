@@ -16,7 +16,14 @@ O **Sensi Master Pro** é a ferramenta definitiva de calibração para jogadores
 * **🔄 Atualizações Frequentes:** O app verifica novas configurações toda vez que é iniciado.
 * **🎨 Interface Premium:** Nova Splash Screen (tela de carregamento) e animações suaves.
 
----
+## 🗺️ Roadmap de Desenvolvimento 2026
+
+- [x] **v2.1:** Sistema de aviso de atualizações frequentes.
+- [x] **v2.2:** Adição de marcas antigas e suporte Sensi 200 (Versão Atual)
+- [ ] **v2.3:** Otimização de Cache e Animações Booster (Próxima Atualização)
+- [ ] **v2.5:** Temas Personalizados (Modo Ouro/VIP) e Botão de Cópia
+- [ ] **v3.0:** Algoritmo de Sensi por Estilo de Jogo (Rush/Sniper)
+- [ ] **v4.0:** Expansão Global Multi-idioma e Database Internacional.
 
 ## 🛠️ Como Instalar e Usar
 
