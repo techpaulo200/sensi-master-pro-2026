@@ -1,142 +1,131 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Sensi Master Pro - Calibrador de sensibilidade profissional para dispositivos móveis">
-    <meta name="keywords" content="sensibilidade, mobile, gaming, calibração, free fire, pubg">
-    <meta name="author" content="techpaulo200">
-    
-    <title>Sensi Master Pro 2026 - Calibrador de Sensibilidade</title>
-    
-    <!-- CSS -->
-    <link rel="stylesheet" href="assets/css/styles.css">
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sensi Master 2026</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    color: white;
+    text-align: center;
+}
+
+.container {
+    padding: 20px;
+}
+
+h1 {
+    margin-top: 20px;
+    font-size: 28px;
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    margin: 15px auto;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 400px;
+}
+
+input[type="range"] {
+    width: 100%;
+}
+
+button {
+    background: #00ffcc;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+button:hover {
+    background: #00ccaa;
+}
+
+#resultado {
+    margin-top: 20px;
+    font-weight: bold;
+}
+</style>
+
 </head>
 <body>
-    <!-- Tela de Splash -->
-    <div id="splash" class="splash-screen">
-        <div class="splash-content">
-            <div class="logo-container">
-                <h1 class="logo-text">SENSI MASTER</h1>
-                <p class="logo-subtitle">PRO 2026</p>
-            </div>
-            <div class="loading-bar">
-                <div class="loading-progress"></div>
-            </div>
-            <p class="loading-text">Carregando sistema de calibração...</p>
-        </div>
+
+<div class="container">
+    <h1>🔥 Sensi Master 2026</h1>
+    <p>Encontre a sensibilidade perfeita para qualquer celular</p>
+
+    <div class="card">
+        <label>Sensibilidade Geral</label>
+        <input type="range" id="geral" min="0" max="200" value="100">
+        <span id="valorGeral">100</span>
     </div>
 
-    <!-- Conteúdo Principal -->
-    <div id="mainContent" class="main-container">
-        <!-- Header -->
-        <header class="header">
-            <h1 class="title">SENSI MASTER PRO</h1>
-            <p class="subtitle">Sistema de Calibração Profissional 2026</p>
-        </header>
-
-        <!-- Card Principal -->
-        <div class="card">
-            <div class="form-section">
-                <h2 class="section-title">Selecione seu Dispositivo</h2>
-                
-                <div class="form-group">
-                    <label for="marca" class="form-label">MARCA</label>
-                    <select id="marca" class="form-select" onchange="app.atualizarModelos()">
-                        <option value="">Selecione a marca</option>
-                        <option value="SAMSUNG">Samsung</option>
-                        <option value="MOTOROLA">Motorola</option>
-                        <option value="XIAOMI">Xiaomi</option>
-                        <option value="IPHONE">iPhone</option>
-                        <option value="INFINIX">Infinix</option>
-                        <option value="REALME">Realme</option>
-                        <option value="LG">LG</option>
-                        <option value="NOKIA">Nokia</option>
-                        <option value="HUAWEI">Huawei</option>
-                        <option value="OUTROS">Outros</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="modelo" class="form-label">MODELO</label>
-                    <select id="modelo" class="form-select">
-                        <option value="">Primeiro selecione a marca</option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- Barra de Progresso -->
-            <div id="progressContainer" class="progress-container">
-                <div class="progress-bar">
-                    <div id="progressBar" class="progress-fill"></div>
-                </div>
-                <p class="progress-text">Calibrando sensibilidade...</p>
-            </div>
-
-            <!-- Resultados -->
-            <div class="results-section">
-                <h3 class="results-title">Valores de Sensibilidade</h3>
-                
-                <div class="results-grid">
-                    <div class="result-box">
-                        <span class="result-label">GERAL</span>
-                        <span id="v1" class="result-value">0</span>
-                    </div>
-                    
-                    <div class="result-box">
-                        <span class="result-label">RED DOT</span>
-                        <span id="v2" class="result-value">0</span>
-                    </div>
-                    
-                    <div class="result-box">
-                        <span class="result-label">2X</span>
-                        <span id="v3" class="result-value">0</span>
-                    </div>
-                    
-                    <div class="result-box">
-                        <span class="result-label">4X</span>
-                        <span id="v4" class="result-value">0</span>
-                    </div>
-                    
-                    <div class="result-box">
-                        <span class="result-label">AWM</span>
-                        <span id="v5" class="result-value">0</span>
-                    </div>
-                    
-                    <div class="result-box result-box-highlight">
-                        <span class="result-label">DPI</span>
-                        <span id="v6" class="result-value">0</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Botão Principal -->
-            <button id="calibrarBtn" class="btn-main" onclick="app.gerarSensi()">
-                CALIBRAR AGORA
-            </button>
-        </div>
-
-        <!-- Footer -->
-        <footer class="footer">
-            <p>
-                <a href="https://github.com/techpaulo200/sensi-master-pro-2026" 
-                   target="_blank" 
-                   rel="noopener noreferrer"
-                   class="footer-link">
-                    💻 Desenvolvido por techpaulo200 | GitHub
-                </a>
-            </p>
-            <p class="footer-version">v1.0.0 - 2026</p>
-        </footer>
+    <div class="card">
+        <label>Sensibilidade ADS</label>
+        <input type="range" id="ads" min="0" max="200" value="90">
+        <span id="valorAds">90</span>
     </div>
 
-    <!-- Scripts -->
-    <script type="module" src="assets/js/database.js"></script>
-    <script type="module" src="assets/js/calculator.js"></script>
-    <script type="module" src="assets/js/app.js"></script>
+    <div class="card">
+        <label>Sensibilidade Sniper</label>
+        <input type="range" id="sniper" min="0" max="200" value="80">
+        <span id="valorSniper">80</span>
+    </div>
+
+    <button onclick="salvarConfig()">Salvar Configuração</button>
+
+    <div id="resultado"></div>
+</div>
+
+<script>
+const geral = document.getElementById("geral");
+const ads = document.getElementById("ads");
+const sniper = document.getElementById("sniper");
+
+const valorGeral = document.getElementById("valorGeral");
+const valorAds = document.getElementById("valorAds");
+const valorSniper = document.getElementById("valorSniper");
+
+geral.oninput = () => valorGeral.innerText = geral.value;
+ads.oninput = () => valorAds.innerText = ads.value;
+sniper.oninput = () => valorSniper.innerText = sniper.value;
+
+function salvarConfig() {
+    const config = {
+        geral: geral.value,
+        ads: ads.value,
+        sniper: sniper.value
+    };
+
+    localStorage.setItem("sensiMasterConfig", JSON.stringify(config));
+
+    document.getElementById("resultado").innerText =
+        "✅ Configuração salva com sucesso!";
+}
+
+window.onload = function() {
+    const saved = localStorage.getItem("sensiMasterConfig");
+    if(saved){
+        const config = JSON.parse(saved);
+        geral.value = config.geral;
+        ads.value = config.ads;
+        sniper.value = config.sniper;
+
+        valorGeral.innerText = config.geral;
+        valorAds.innerText = config.ads;
+        valorSniper.innerText = config.sniper;
+    }
+}
+</script>
+
 </body>
 </html>
-
