@@ -1,75 +1,143 @@
-# 🔥 Sensi Master 2026
+<p align="center"> 🎯 Precisão • ⚡ Performance • 🏆 Competitivo </p> <p align="center"> <img src="https://img.shields.io/badge/Versão-1.1.2-blue?style=for-the-badge"> <img src="https://img.shields.io/badge/Status-Ativo-brightgreen?style=for-the-badge"> <img src="https://img.shields.io/badge/Plataforma-Android-success?style=for-the-badge"> <img src="https://img.shields.io/badge/Linguagem-HTML%20%7C%20CSS%20%7C%20JS-orange?style=for-the-badge"> </p>
 
-Aplicativo focado em configuração avançada de sensibilidade para jogos mobile.
+🎮 Sobre o Projeto
 
-## 🎯 Objetivo
-Ajudar jogadores a encontrar a sensibilidade perfeita para qualquer dispositivo Android.
+O Sensi Master 2026 é uma ferramenta focada em ajuste e gerenciamento de sensibilidade para jogadores mobile que buscam desempenho competitivo em qualquer dispositivo.
 
-## ⚙️ Funcionalidades
-- Ajuste fino de sensibilidade
-- Perfis personalizados
-- Configuração por tipo de aparelho
-- Interface leve e otimizada
-- Foco em desempenho
+Desenvolvido para ser leve, rápido e eficiente, o projeto tem como objetivo oferecer controle total sobre configurações de sensibilidade com máxima estabilidade.
 
-## 📱 Compatibilidade
-Android 8.0+
+🚀 Objetivos
 
-## 🚀 Versão
-1.0.0 - Lançamento Inicial
+Melhorar precisão em jogos mobile
 
----
-Desenvolvido por Paulo Robson    
+Garantir estabilidade em dispositivos fracos
 
-📢 Nota de Atualização – Versão 1.0.0
-🔥 NOVA INTERFACE MODERNA
+Criar base sólida para futuras funções inteligentes
 
-Layout gamer com design responsivo
+Evoluir continuamente com foco competitivo
 
-Visual otimizado para qualquer tamanho de tela
+📦 Versões Disponíveis
+⚡ Sensi Master 2026 Lite
 
-Melhor organização dos controles de sensibilidade
+Versão otimizada para aparelhos com hardware limitado.
 
-🎮 SISTEMA COMPLETO DE AJUSTE
+Características:
 
-Sensibilidade Geral (0–200)
+Interface leve
 
-Sensibilidade ADS (0–200)
+Menor consumo de recursos
 
-Sensibilidade Sniper (0–200)
+Recursos essenciais
 
-Atualização em tempo real dos valores
+Melhor desempenho em dispositivos básicos
 
-💾 SALVAMENTO AUTOMÁTICO
+🚀 Sensi Master 2026 (Normal)
 
-Configurações salvas no navegador (LocalStorage)
+Versão padrão com todos os recursos disponíveis.
 
-Recuperação automática ao reabrir o app
+Características:
 
-Experiência contínua para o usuário
+Sistema completo de ajustes
 
-⚡ OTIMIZAÇÃO DE CÓDIGO
+Base preparada para futuras funções
 
-HTML, CSS e JavaScript unificados
+Melhor experiência visual
 
-Estrutura simplificada
+🔧 Funcionalidades
 
-Código mais leve e organizado
+🎯 Sensibilidade Geral
 
-Melhor desempenho em dispositivos fracos
+🎯 Sensibilidade ADS
 
-🛠 MELHORIAS TÉCNICAS
+🎯 Sensibilidade Sniper
 
-Arquivo único (index.html)
+💾 Salvamento automático
 
-Estrutura pronta para GitHub
+🔄 Recuperação automática de dados
 
-Base preparada para futuras atualizações
+📱 Interface responsiva
 
-Compatível com qualquer navegador moderno
+⚡ Código otimizado
 
-📦 RESUMO DA VERSÃO
+🏆 Patch Notes – Versão 1.1.2
+🔧 Correções
 
-Versão: 1.0.0 – Lançamento Estruturado
-Status: ✅ Estável
-Foco: Sensibilidade Universal para Mobile
+Corrigido bug no salvamento de configurações
+
+Ajuste no carregamento inicial
+
+Correção de inconsistências visuais
+
+📈 Melhorias Técnicas
+
+Otimização do JavaScript
+
+Melhor gerenciamento de eventos
+
+Código mais limpo e estável
+
+Redução de processamento desnecessário
+
+🚀 Performance
+
+Carregamento mais rápido
+
+Resposta mais fluida dos sliders
+
+Maior estabilidade geral
+
+🛠 Tecnologias Utilizadas
+
+HTML5
+
+CSS3
+
+JavaScript
+
+LocalStorage API
+
+📥 Instalação
+
+Clone o projeto:
+
+git clone https://github.com/SEUUSUARIO/sensi-master-2026.git
+
+Entre na pasta:
+
+cd sensi-master-2026
+
+Abra o index.html no navegador.
+
+🗺 Roadmap 2026
+
+ Sistema básico de sensibilidade
+
+ Salvamento automático
+
+ Versão Lite
+
+ Sistema inteligente baseado em FPS
+
+ Perfis automáticos por modelo de celular
+
+ Modo competitivo avançado
+
+ Versão PWA instalável
+
+ Sistema de backup/exportação
+
+📊 Status do Projeto
+
+🟢 Desenvolvimento ativo
+🔄 Atualizações constantes
+🎯 Foco competitivo
+
+👨‍💻 Desenvolvedor
+
+Paulo Robson
+Projeto independente focado em performance mobile.
+
+📜 Licença
+
+Este projeto é livre para estudo e melhorias pessoais.
+Distribuição deve manter os créditos do desenvolvedor.
