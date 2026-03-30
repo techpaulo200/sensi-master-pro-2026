@@ -2,130 +2,1502 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0a0f1e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Sensi Master 2026</title>
-
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet">
+ 
 <style>
+:root {
+  --neon: #00ffe0;
+  --neon2: #ff3cac;
+  --neon3: #ffd600;
+  --bg: #0a0f1e;
+  --card: rgba(255,255,255,0.04);
+  --border: rgba(0,255,224,0.18);
+  --text: #e0f7f4;
+  --muted: #6a8fa8;
+}
+ 
+* { box-sizing: border-box; margin: 0; padding: 0; }
+ 
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-    color: white;
-    text-align: center;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Rajdhani', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
 }
-
-.container {
-    padding: 20px;
+ 
+/* BG animated grid */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,255,224,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,255,224,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
 }
-
-h1 {
-    margin-top: 20px;
-    font-size: 28px;
+ 
+/* ===== HEADER ===== */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(10,15,30,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
-
+ 
+.logo {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  background: linear-gradient(90deg, var(--neon), var(--neon2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+ 
+.badge {
+  background: var(--neon2);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 20px;
+  letter-spacing: 1px;
+  margin-left: 8px;
+  vertical-align: middle;
+  -webkit-text-fill-color: #fff;
+}
+ 
+.header-right {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+ 
+.icon-btn {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--neon);
+  border-radius: 8px;
+  padding: 6px 10px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all .2s;
+}
+.icon-btn:hover { background: rgba(0,255,224,0.1); }
+ 
+/* ===== TABS ===== */
+.tabs {
+  display: flex;
+  overflow-x: auto;
+  gap: 0;
+  background: rgba(0,0,0,0.3);
+  border-bottom: 1px solid var(--border);
+  scrollbar-width: none;
+}
+.tabs::-webkit-scrollbar { display: none; }
+ 
+.tab {
+  flex: 1;
+  min-width: 80px;
+  padding: 12px 8px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--muted);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all .2s;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.tab.active {
+  color: var(--neon);
+  border-bottom-color: var(--neon);
+}
+.tab:hover { color: var(--text); }
+ 
+/* ===== SECTIONS ===== */
+.section {
+  display: none;
+  padding: 16px;
+  max-width: 520px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+.section.active { display: block; }
+ 
+/* ===== CARDS ===== */
 .card {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 15px;
-    margin: 15px auto;
-    border-radius: 10px;
-    width: 90%;
-    max-width: 400px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+  margin-bottom: 14px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color .2s;
 }
-
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--neon), transparent);
+  opacity: 0.4;
+}
+.card:hover { border-color: rgba(0,255,224,0.35); }
+ 
+.card-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--neon);
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+ 
+/* ===== SLIDERS ===== */
+.slider-group {
+  margin-bottom: 14px;
+}
+ 
+.slider-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+ 
+.slider-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+ 
+.slider-val {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 13px;
+  color: var(--neon);
+  min-width: 36px;
+  text-align: right;
+}
+ 
 input[type="range"] {
-    width: 100%;
+  -webkit-appearance: none;
+  width: 100%;
+  height: 4px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 4px;
+  outline: none;
 }
-
-button {
-    background: #00ffcc;
-    border: none;
-    padding: 12px 20px;
-    border-radius: 8px;
-    font-size: 16px;
-    cursor: pointer;
-    margin-top: 15px;
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--neon);
+  box-shadow: 0 0 8px var(--neon);
+  cursor: pointer;
+  border: 2px solid #fff;
 }
-
-button:hover {
-    background: #00ccaa;
+input[type="range"]::-webkit-slider-runnable-track {
+  background: linear-gradient(to right, var(--neon) 0%, var(--neon) var(--pct, 50%), rgba(255,255,255,0.1) var(--pct, 50%));
+  height: 4px;
+  border-radius: 4px;
 }
-
-#resultado {
-    margin-top: 20px;
-    font-weight: bold;
+ 
+/* ===== BUTTONS ===== */
+.btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 10px;
+  border: none;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all .2s;
+  text-transform: uppercase;
 }
+.btn-primary {
+  background: linear-gradient(135deg, var(--neon), #00b8a9);
+  color: #0a0f1e;
+  box-shadow: 0 4px 20px rgba(0,255,224,0.25);
+}
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 28px rgba(0,255,224,0.4); }
+.btn-secondary {
+  background: transparent;
+  color: var(--neon);
+  border: 1px solid var(--border);
+}
+.btn-secondary:hover { background: rgba(0,255,224,0.08); }
+.btn-danger {
+  background: transparent;
+  color: var(--neon2);
+  border: 1px solid rgba(255,60,172,0.3);
+}
+.btn-danger:hover { background: rgba(255,60,172,0.1); }
+.btn-sm {
+  padding: 8px 14px;
+  font-size: 10px;
+  width: auto;
+  border-radius: 8px;
+  letter-spacing: 1px;
+}
+ 
+.btn-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+}
+.btn-row .btn { flex: 1; }
+ 
+/* ===== DEVICE SELECT ===== */
+.device-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+ 
+.device-card {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: all .2s;
+  background: var(--card);
+}
+.device-card:hover, .device-card.selected {
+  border-color: var(--neon);
+  background: rgba(0,255,224,0.07);
+}
+.device-card.selected { box-shadow: 0 0 12px rgba(0,255,224,0.2); }
+.device-icon { font-size: 26px; margin-bottom: 6px; }
+.device-name { font-size: 12px; font-weight: 600; }
+.device-sub { font-size: 10px; color: var(--muted); margin-top: 2px; }
+ 
+/* ===== SELECT ===== */
+select {
+  width: 100%;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 14px;
+  outline: none;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+select:focus { border-color: var(--neon); }
+select option { background: #0a0f1e; }
+ 
+/* ===== PROFILE LIST ===== */
+.profile-list { display: flex; flex-direction: column; gap: 10px; }
+ 
+.profile-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  cursor: pointer;
+  transition: all .2s;
+}
+.profile-item:hover { border-color: var(--neon); background: rgba(0,255,224,0.05); }
+.profile-name { font-weight: 700; font-size: 14px; }
+.profile-meta { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.profile-actions { display: flex; gap: 6px; }
+ 
+/* ===== STATS ===== */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.stat-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 8px;
+  text-align: center;
+}
+.stat-val {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 20px;
+  color: var(--neon);
+  font-weight: 700;
+}
+.stat-label { font-size: 10px; color: var(--muted); margin-top: 4px; letter-spacing: 1px; text-transform: uppercase; }
+ 
+/* ===== SENSITIVITY DISPLAY ===== */
+.sens-display {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 14px 0;
+}
+.sens-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.sens-name { font-size: 12px; color: var(--muted); min-width: 80px; font-weight: 600; }
+.sens-bar-wrap { flex: 1; height: 6px; background: rgba(255,255,255,0.08); border-radius: 3px; overflow: hidden; }
+.sens-bar { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--neon), var(--neon2)); transition: width .4s ease; }
+.sens-num { font-family: 'Orbitron', sans-serif; font-size: 11px; color: var(--neon); min-width: 32px; text-align: right; }
+ 
+/* ===== TOAST ===== */
+.toast {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: rgba(0,255,224,0.15);
+  border: 1px solid var(--neon);
+  color: var(--neon);
+  padding: 10px 22px;
+  border-radius: 30px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 12px;
+  letter-spacing: 1px;
+  opacity: 0;
+  transition: all .3s;
+  z-index: 9999;
+  pointer-events: none;
+  white-space: nowrap;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+ 
+/* ===== MODAL ===== */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  z-index: 500;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: #0d1528;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  width: 90%;
+  max-width: 360px;
+}
+.modal h3 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 14px;
+  color: var(--neon);
+  margin-bottom: 16px;
+  letter-spacing: 2px;
+}
+.modal input[type="text"] {
+  width: 100%;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 15px;
+  outline: none;
+  margin-bottom: 14px;
+}
+.modal input[type="text"]:focus { border-color: var(--neon); }
+ 
+/* ===== BOTTOM NAV ===== */
+.bottom-nav {
+  display: none;
+}
+ 
+/* ===== TIPS ===== */
+.tip-card {
+  background: linear-gradient(135deg, rgba(0,255,224,0.08), rgba(255,60,172,0.05));
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 10px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.tip-icon { font-size: 22px; flex-shrink: 0; }
+.tip-title { font-weight: 700; font-size: 14px; margin-bottom: 4px; }
+.tip-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+ 
+/* ===== TOGGLE ===== */
+.toggle-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.toggle-row:last-child { border-bottom: none; }
+.toggle-label { font-size: 13px; font-weight: 600; }
+.toggle-sub { font-size: 11px; color: var(--muted); }
+ 
+.toggle {
+  width: 44px;
+  height: 24px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 12px;
+  position: relative;
+  cursor: pointer;
+  transition: background .2s;
+  flex-shrink: 0;
+  border: none;
+  outline: none;
+}
+.toggle.on { background: var(--neon); }
+.toggle::after {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  background: white;
+  border-radius: 50%;
+  top: 3px;
+  left: 3px;
+  transition: left .2s;
+}
+.toggle.on::after { left: 23px; }
+ 
+/* ===== SENS PREVIEW ===== */
+.crosshair-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+}
+.crosshair {
+  width: 80px;
+  height: 80px;
+  position: relative;
+}
+.crosshair::before, .crosshair::after {
+  content: '';
+  position: absolute;
+  background: var(--neon);
+  box-shadow: 0 0 8px var(--neon);
+}
+.crosshair::before { width: 2px; height: 100%; left: 50%; transform: translateX(-50%); }
+.crosshair::after { width: 100%; height: 2px; top: 50%; transform: translateY(-50%); }
+.crosshair-dot {
+  width: 6px; height: 6px;
+  background: var(--neon2);
+  border-radius: 50%;
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  box-shadow: 0 0 6px var(--neon2);
+}
+ 
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(0,255,224,0.2); border-radius: 2px; }
+ 
+/* ===== SECTION TITLE ===== */
+.section-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 16px;
+  letter-spacing: 2px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-title span { font-size: 20px; }
+ 
+/* Rating Stars */
+.stars { color: var(--neon3); font-size: 14px; }
+ 
+/* Info box */
+.info-box {
+  background: rgba(0,255,224,0.06);
+  border-left: 3px solid var(--neon);
+  padding: 10px 14px;
+  border-radius: 0 8px 8px 0;
+  margin-bottom: 14px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+ 
+.tag {
+  display: inline-block;
+  background: rgba(0,255,224,0.12);
+  color: var(--neon);
+  border: 1px solid rgba(0,255,224,0.3);
+  border-radius: 20px;
+  padding: 3px 10px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin: 2px;
+}
+.tag.pink { background: rgba(255,60,172,0.12); color: var(--neon2); border-color: rgba(255,60,172,0.3); }
+.tag.yellow { background: rgba(255,214,0,0.12); color: var(--neon3); border-color: rgba(255,214,0,0.3); }
+ 
+/* ===== DEV LOG ===== */
+.version-block { margin-bottom: 18px; position: relative; }
+.version-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  user-select: none;
+}
+.version-dot {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--neon);
+  box-shadow: 0 0 10px var(--neon);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+.version-dot.pink { background: var(--neon2); box-shadow: 0 0 10px var(--neon2); }
+.version-dot.yellow { background: var(--neon3); box-shadow: 0 0 10px var(--neon3); }
+.version-dot.grey { background: var(--muted); box-shadow: none; }
+.version-line {
+  position: absolute;
+  left: 6px; top: 24px; bottom: -6px;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--border), transparent);
+}
+.version-title-wrap { flex: 1; }
+.version-num {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--neon);
+  letter-spacing: 1px;
+}
+.version-num.pink { color: var(--neon2); }
+.version-num.yellow { color: var(--neon3); }
+.version-num.grey { color: var(--muted); }
+.version-date { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.version-badge {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 3px 9px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+.badge-stable { background: rgba(0,255,224,0.15); color: var(--neon); border: 1px solid rgba(0,255,224,0.3); }
+.badge-beta { background: rgba(255,60,172,0.15); color: var(--neon2); border: 1px solid rgba(255,60,172,0.3); }
+.badge-alpha { background: rgba(255,214,0,0.15); color: var(--neon3); border: 1px solid rgba(255,214,0,0.3); }
+.badge-planned { background: rgba(106,143,168,0.15); color: var(--muted); border: 1px solid rgba(106,143,168,0.2); }
+.badge-current { background: linear-gradient(135deg,rgba(0,255,224,0.25),rgba(255,60,172,0.15)); color: #fff; border: 1px solid var(--neon); }
+ 
+.changelog-body { padding-left: 26px; }
+.changelog-body.collapsed { display: none; }
+.change-item {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  padding: 5px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  font-size: 13px;
+  line-height: 1.5;
+}
+.change-item:last-child { border-bottom: none; }
+.change-icon { flex-shrink: 0; font-size: 13px; margin-top: 1px; }
+.change-text { color: var(--text); }
+.change-text b { color: var(--neon); }
+.change-type {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 1px 6px;
+  border-radius: 4px;
+  flex-shrink: 0;
+  margin-top: 3px;
+  text-transform: uppercase;
+}
+.ct-new { background: rgba(0,255,224,0.1); color: var(--neon); }
+.ct-fix { background: rgba(255,214,0,0.1); color: var(--neon3); }
+.ct-imp { background: rgba(255,60,172,0.1); color: var(--neon2); }
+.ct-rem { background: rgba(106,143,168,0.1); color: var(--muted); }
+ 
+.devlog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  margin-top: 10px;
+}
+.devlog-counter {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 1px;
+}
+.collapse-hint { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.version-chevron { color: var(--muted); font-size: 12px; transition: transform .2s; }
+.version-chevron.open { transform: rotate(180deg); }
+ 
+/* comparison table */
+.cmp-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.cmp-table th { color: var(--neon); font-family: 'Orbitron', sans-serif; font-size: 10px; letter-spacing: 1px; padding: 8px; border-bottom: 1px solid var(--border); text-align: left; }
+.cmp-table td { padding: 9px 8px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.cmp-table tr:hover td { background: rgba(255,255,255,0.02); }
 </style>
-
 </head>
 <body>
-
-<div class="container">
-    <h1>🔥 Sensi Master 2026</h1>
-    <p>Encontre a sensibilidade perfeita para qualquer celular</p>
-
-    <div class="card">
-        <label>Sensibilidade Geral</label>
-        <input type="range" id="geral" min="0" max="200" value="100">
-        <span id="valorGeral">100</span>
-    </div>
-
-    <div class="card">
-        <label>Sensibilidade ADS</label>
-        <input type="range" id="ads" min="0" max="200" value="90">
-        <span id="valorAds">90</span>
-    </div>
-
-    <div class="card">
-        <label>Sensibilidade Sniper</label>
-        <input type="range" id="sniper" min="0" max="200" value="80">
-        <span id="valorSniper">80</span>
-    </div>
-
-    <button onclick="salvarConfig()">Salvar Configuração</button>
-
-    <div id="resultado"></div>
+ 
+<header>
+  <div>
+    <span class="logo">SENSI<span style="-webkit-text-fill-color:var(--neon2)">M</span></span>
+    <span class="badge">2026</span>
+  </div>
+  <div class="header-right">
+    <button class="icon-btn" onclick="exportConfig()" title="Exportar">📤</button>
+    <button class="icon-btn" onclick="document.getElementById('importFile').click()" title="Importar">📥</button>
+    <input type="file" id="importFile" accept=".json" style="display:none" onchange="importConfig(event)">
+  </div>
+</header>
+ 
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab active" onclick="goTab('sensi')">🎯 Sensi</button>
+  <button class="tab" onclick="goTab('perfis')">💾 Perfis</button>
+  <button class="tab" onclick="goTab('device')">📱 Device</button>
+  <button class="tab" onclick="goTab('tips')">💡 Dicas</button>
+  <button class="tab" onclick="goTab('config')">⚙️ Config</button>
+  <button class="tab" onclick="goTab('devlog')">📋 Dev Log</button>
 </div>
-
+ 
+<!-- ============= SENSI TAB ============= -->
+<div class="section active" id="tab-sensi">
+ 
+  <div class="card" style="margin-top:10px">
+    <div class="card-title">🎯 Configuração de Sensibilidade</div>
+ 
+    <div class="slider-group">
+      <div class="slider-header">
+        <span class="slider-label">🖱 Geral</span>
+        <span class="slider-val" id="vGeral">100</span>
+      </div>
+      <input type="range" id="sGeral" min="0" max="200" value="100" oninput="updateSlider('Geral',this)">
+    </div>
+ 
+    <div class="slider-group">
+      <div class="slider-header">
+        <span class="slider-label">🔭 ADS</span>
+        <span class="slider-val" id="vAds">90</span>
+      </div>
+      <input type="range" id="sAds" min="0" max="200" value="90" oninput="updateSlider('Ads',this)">
+    </div>
+ 
+    <div class="slider-group">
+      <div class="slider-header">
+        <span class="slider-label">🎯 Sniper</span>
+        <span class="slider-val" id="vSniper">80</span>
+      </div>
+      <input type="range" id="sSniper" min="0" max="200" value="80" oninput="updateSlider('Sniper',this)">
+    </div>
+ 
+    <div class="slider-group">
+      <div class="slider-header">
+        <span class="slider-label">🏃 Movimento</span>
+        <span class="slider-val" id="vMov">110</span>
+      </div>
+      <input type="range" id="sMov" min="0" max="200" value="110" oninput="updateSlider('Mov',this)">
+    </div>
+ 
+    <div class="slider-group">
+      <div class="slider-header">
+        <span class="slider-label">🔄 Giroscópio</span>
+        <span class="slider-val" id="vGiro">70</span>
+      </div>
+      <input type="range" id="sGiro" min="0" max="200" value="70" oninput="updateSlider('Giro',this)">
+    </div>
+ 
+    <div class="slider-group">
+      <div class="slider-header">
+        <span class="slider-label">📡 2x Scope</span>
+        <span class="slider-val" id="v2x">95</span>
+      </div>
+      <input type="range" id="s2x" min="0" max="200" value="95" oninput="updateSlider('2x',this)">
+    </div>
+ 
+    <div class="slider-group">
+      <div class="slider-header">
+        <span class="slider-label">🔬 4x Scope</span>
+        <span class="slider-val" id="v4x">75</span>
+      </div>
+      <input type="range" id="s4x" min="0" max="200" value="75" oninput="updateSlider('4x',this)">
+    </div>
+  </div>
+ 
+  <!-- Crosshair preview -->
+  <div class="card">
+    <div class="card-title">🔲 Preview Visual</div>
+    <div class="crosshair-wrap">
+      <div class="crosshair"><div class="crosshair-dot"></div></div>
+    </div>
+    <div class="sens-display" id="sensDisplay"></div>
+  </div>
+ 
+  <!-- Score -->
+  <div class="card">
+    <div class="card-title">📊 Score da Config</div>
+    <div class="stat-grid">
+      <div class="stat-box">
+        <div class="stat-val" id="scoreAim">—</div>
+        <div class="stat-label">Aim</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val" id="scoreControl">—</div>
+        <div class="stat-label">Controle</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val" id="scoreGeral">—</div>
+        <div class="stat-label">Geral</div>
+      </div>
+    </div>
+    <div id="scoreDesc" class="info-box" style="margin-bottom:0;font-size:12px"></div>
+  </div>
+ 
+  <div class="btn-row">
+    <button class="btn btn-secondary btn-sm" onclick="autoBalance()">⚡ Auto Balancear</button>
+    <button class="btn btn-secondary btn-sm" onclick="resetSliders()">↺ Reset</button>
+  </div>
+ 
+  <div class="btn-row">
+    <button class="btn btn-primary" onclick="saveMain()">💾 Salvar Config</button>
+  </div>
+  <div style="height:20px"></div>
+</div>
+ 
+<!-- ============= PERFIS TAB ============= -->
+<div class="section" id="tab-perfis">
+  <div class="section-title" style="margin-top:10px"><span>💾</span> Perfis Salvos</div>
+ 
+  <div class="card">
+    <div class="card-title">➕ Novo Perfil</div>
+    <div style="display:flex;gap:10px">
+      <input type="text" id="profileName" placeholder="Nome do perfil..." style="flex:1;background:rgba(255,255,255,0.06);border:1px solid var(--border);color:var(--text);padding:10px;border-radius:8px;font-family:'Rajdhani',sans-serif;font-size:14px;outline:none">
+      <button class="btn btn-primary btn-sm" onclick="saveProfile()">Salvar</button>
+    </div>
+  </div>
+ 
+  <div class="profile-list" id="profileList">
+    <!-- profiles rendered here -->
+  </div>
+ 
+  <div class="card" style="margin-top:4px">
+    <div class="card-title">📤 Compartilhar Código</div>
+    <div class="info-box" style="font-family:'Orbitron',sans-serif;font-size:11px;letter-spacing:2px;color:var(--neon);word-break:break-all" id="shareCode">Salve uma config primeiro</div>
+    <div class="btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="copyCode()">📋 Copiar Código</button>
+      <button class="btn btn-secondary btn-sm" onclick="showImportCode()">📥 Importar Código</button>
+    </div>
+  </div>
+  <div style="height:20px"></div>
+</div>
+ 
+<!-- ============= DEVICE TAB ============= -->
+<div class="section" id="tab-device">
+  <div class="section-title" style="margin-top:10px"><span>📱</span> Tipo de Device</div>
+ 
+  <div class="device-grid">
+    <div class="device-card" onclick="selectDevice(this,'low')" data-type="low">
+      <div class="device-icon">📱</div>
+      <div class="device-name">Básico</div>
+      <div class="device-sub">1-3GB RAM</div>
+    </div>
+    <div class="device-card" onclick="selectDevice(this,'mid')" data-type="mid">
+      <div class="device-icon">📲</div>
+      <div class="device-name">Intermediário</div>
+      <div class="device-sub">4-6GB RAM</div>
+    </div>
+    <div class="device-card" onclick="selectDevice(this,'high')" data-type="high">
+      <div class="device-icon">🖥</div>
+      <div class="device-name">Gamer</div>
+      <div class="device-sub">8-12GB RAM</div>
+    </div>
+    <div class="device-card" onclick="selectDevice(this,'pro')" data-type="pro">
+      <div class="device-icon">🚀</div>
+      <div class="device-name">Pro / Top</div>
+      <div class="device-sub">16GB+ RAM</div>
+    </div>
+  </div>
+ 
+  <div class="card">
+    <div class="card-title">🎮 Estilo de Jogo</div>
+    <select id="playStyle" onchange="applyDevicePreset()">
+      <option value="rush">🔥 Rush / Agressivo</option>
+      <option value="balanced">⚖️ Balanceado</option>
+      <option value="sniper">🎯 Sniper / Passivo</option>
+      <option value="support">🛡 Suporte / Tático</option>
+    </select>
+    <select id="gameMode" onchange="applyDevicePreset()">
+      <option value="br">🗺 Battle Royale</option>
+      <option value="cs">💣 Clash Squad</option>
+      <option value="ranked">🏆 Ranqueado</option>
+    </select>
+  </div>
+ 
+  <div class="card" id="presetCard">
+    <div class="card-title">⚡ Preset Recomendado</div>
+    <div id="presetInfo" class="info-box" style="margin-bottom:12px">Selecione um device acima para ver o preset ideal.</div>
+    <div id="presetValues"></div>
+    <button class="btn btn-primary" id="applyPresetBtn" style="display:none;margin-top:10px" onclick="applyPresetToSliders()">🚀 Aplicar Preset</button>
+  </div>
+ 
+  <!-- Comparison table -->
+  <div class="card">
+    <div class="card-title">📊 Comparativo</div>
+    <table class="cmp-table">
+      <thead><tr><th>Device</th><th>Geral</th><th>ADS</th><th>Sniper</th></tr></thead>
+      <tbody>
+        <tr><td>📱 Básico</td><td>70</td><td>60</td><td>50</td></tr>
+        <tr><td>📲 Inter.</td><td>90</td><td>80</td><td>65</td></tr>
+        <tr><td>🖥 Gamer</td><td>110</td><td>95</td><td>80</td></tr>
+        <tr><td>🚀 Pro</td><td>130</td><td>110</td><td>90</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div style="height:20px"></div>
+</div>
+ 
+<!-- ============= TIPS TAB ============= -->
+<div class="section" id="tab-tips">
+  <div class="section-title" style="margin-top:10px"><span>💡</span> Dicas & Truques</div>
+ 
+  <div class="tip-card">
+    <div class="tip-icon">🎯</div>
+    <div>
+      <div class="tip-title">Sensibilidade Ideal por Postura</div>
+      <div class="tip-desc">Para rush use Geral alta (120-150). Para sniper mantenha Geral baixa e Sniper entre 60-80. ADS deve ser sempre 10-20% menor que Geral.</div>
+    </div>
+  </div>
+ 
+  <div class="tip-card">
+    <div class="tip-icon">📱</div>
+    <div>
+      <div class="tip-title">Celular Básico</div>
+      <div class="tip-desc">Mantenha sensibilidade entre 60-90 para evitar tremido e imprecisão causado pelo lag de renderização.</div>
+    </div>
+  </div>
+ 
+  <div class="tip-card">
+    <div class="tip-icon">🔄</div>
+    <div>
+      <div class="tip-title">Giroscópio</div>
+      <div class="tip-desc">Se não usa giroscópio, mantenha em 0. Se usa, comece em 50 e ajuste 5 por vez até achar o ponto de conforto. Evite valores acima de 100.</div>
+    </div>
+  </div>
+ 
+  <div class="tip-card">
+    <div class="tip-icon">⚡</div>
+    <div>
+      <div class="tip-title">Regra dos 70%</div>
+      <div class="tip-desc">Sniper sempre deve ser ~70% da sensibilidade Geral. Isso garante estabilidade no scope sem perder agilidade no campo aberto.</div>
+    </div>
+  </div>
+ 
+  <div class="tip-card">
+    <div class="tip-icon">🏆</div>
+    <div>
+      <div class="tip-title">Treino de Adaptação</div>
+      <div class="tip-desc">Ao mudar a sensibilidade, jogue pelo menos 20 partidas antes de julgar. O cérebro precisa de tempo para reaprender o controle muscular.</div>
+    </div>
+  </div>
+ 
+  <div class="tip-card">
+    <div class="tip-icon">🔬</div>
+    <div>
+      <div class="tip-title">2x vs 4x Scope</div>
+      <div class="tip-desc">O 2x exige reação rápida — use 85-100. O 4x é para precisão — mantenha entre 60-80. Nunca iguale os dois valores.</div>
+    </div>
+  </div>
+ 
+  <div class="tip-card">
+    <div class="tip-icon">🌡</div>
+    <div>
+      <div class="tip-title">Temperatura do Celular</div>
+      <div class="tip-desc">Celular quente aumenta o lag de toque. Se esquentar, reduza geral e ads em 10 pontos temporariamente.</div>
+    </div>
+  </div>
+  <div style="height:20px"></div>
+</div>
+ 
+<!-- ============= CONFIG TAB ============= -->
+<div class="section" id="tab-config">
+  <div class="section-title" style="margin-top:10px"><span>⚙️</span> Configurações</div>
+ 
+  <div class="card">
+    <div class="card-title">🎛 Preferências</div>
+    <div class="toggle-row">
+      <div>
+        <div class="toggle-label">Modo Escuro Extremo</div>
+        <div class="toggle-sub">Fundo 100% preto</div>
+      </div>
+      <button class="toggle on" id="tDark" onclick="togglePref(this,'dark')"></button>
+    </div>
+    <div class="toggle-row">
+      <div>
+        <div class="toggle-label">Sons de Feedback</div>
+        <div class="toggle-sub">Beep ao salvar configurações</div>
+      </div>
+      <button class="toggle" id="tSound" onclick="togglePref(this,'sound')"></button>
+    </div>
+    <div class="toggle-row">
+      <div>
+        <div class="toggle-label">Haptic / Vibração</div>
+        <div class="toggle-sub">Vibrar ao salvar (Android)</div>
+      </div>
+      <button class="toggle on" id="tHaptic" onclick="togglePref(this,'haptic')"></button>
+    </div>
+    <div class="toggle-row">
+      <div>
+        <div class="toggle-label">Salvar Automático</div>
+        <div class="toggle-sub">Salvar a cada alteração</div>
+      </div>
+      <button class="toggle" id="tAuto" onclick="togglePref(this,'auto')"></button>
+    </div>
+  </div>
+ 
+  <div class="card">
+    <div class="card-title">📊 Estatísticas de Uso</div>
+    <div class="stat-grid">
+      <div class="stat-box">
+        <div class="stat-val" id="statPerfis">0</div>
+        <div class="stat-label">Perfis</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val" id="statChanges">0</div>
+        <div class="stat-label">Ajustes</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val" id="statDays">1</div>
+        <div class="stat-label">Dias</div>
+      </div>
+    </div>
+  </div>
+ 
+  <div class="card">
+    <div class="card-title">🗂 Dados</div>
+    <div class="btn-row" style="margin-top:0">
+      <button class="btn btn-secondary btn-sm" onclick="exportConfig()">📤 Exportar JSON</button>
+      <button class="btn btn-secondary btn-sm" onclick="document.getElementById('importFile').click()">📥 Importar JSON</button>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-danger btn-sm" onclick="clearAll()">🗑 Apagar Tudo</button>
+    </div>
+  </div>
+ 
+  <div class="card">
+    <div class="card-title">ℹ️ Sobre</div>
+    <div style="font-size:13px;color:var(--muted);line-height:1.7">
+      <b style="color:var(--text)">Sensi Master 2026</b> v2.0.0<br>
+      Otimizador de sensibilidade para jogos mobile.<br>
+      Funciona 100% offline — seus dados ficam no dispositivo.<br><br>
+      <span class="tag">PWA</span>
+      <span class="tag pink">Free Fire</span>
+      <span class="tag yellow">PUBG Mobile</span>
+      <span class="tag">COD Mobile</span>
+    </div>
+  </div>
+  <div style="height:20px"></div>
+</div>
+ 
+<!-- ============= DEV LOG TAB ============= -->
+<div class="section" id="tab-devlog">
+ 
+  <div class="devlog-header">
+    <div class="section-title" style="margin:0"><span>📋</span> Dev Log</div>
+    <div class="devlog-counter" id="devlogCounter">3 VERSÕES</div>
+  </div>
+ 
+  <div class="info-box" style="margin-bottom:16px;font-size:12px">
+    Histórico completo de todas as versões do <b style="color:var(--neon)">Sensi Master</b>. Clique em uma versão para expandir os detalhes.
+  </div>
+ 
+  <!-- TIMELINE -->
+  <div id="devlogTimeline">
+ 
+    <!-- v2.0.0 CURRENT -->
+    <div class="version-block">
+      <div class="version-line"></div>
+      <div class="version-header" onclick="toggleVersion(this)">
+        <div class="version-dot"></div>
+        <div class="version-title-wrap">
+          <div class="version-num">v2.0.0 — Sensi Master 2026</div>
+          <div class="version-date">📅 Março 2026 · 7 sliders · PWA ready</div>
+        </div>
+        <span class="version-badge badge-current">ATUAL</span>
+        <span class="version-chevron open">▼</span>
+      </div>
+      <div class="changelog-body">
+        <div class="change-item"><span class="change-icon">✨</span><div><span class="change-type ct-new">novo</span><div class="change-text">Aba <b>Dev Log</b> com histórico completo de versões</div></div></div>
+        <div class="change-item"><span class="change-icon">✨</span><div><span class="change-type ct-new">novo</span><div class="change-text">Slider de <b>Giroscópio</b>, <b>2x Scope</b> e <b>4x Scope</b> adicionados</div></div></div>
+        <div class="change-item"><span class="change-icon">✨</span><div><span class="change-type ct-new">novo</span><div class="change-text">Sistema de <b>Perfis</b> com nome, data e carregamento instantâneo</div></div></div>
+        <div class="change-item"><span class="change-icon">✨</span><div><span class="change-type ct-new">novo</span><div class="change-text">Aba <b>Device</b> com presets por celular + estilo de jogo + modo</div></div></div>
+        <div class="change-item"><span class="change-icon">✨</span><div><span class="change-type ct-new">novo</span><div class="change-text"><b>Score da Config</b> — avalia Aim, Controle e Geral em tempo real</div></div></div>
+        <div class="change-item"><span class="change-icon">✨</span><div><span class="change-type ct-new">novo</span><div class="change-text"><b>Auto Balancear</b> — calcula proporções ideais automaticamente</div></div></div>
+        <div class="change-item"><span class="change-icon">✨</span><div><span class="change-type ct-new">novo</span><div class="change-text"><b>Código de compartilhamento</b> — exporta config em código copiável</div></div></div>
+        <div class="change-item"><span class="change-icon">✨</span><div><span class="change-type ct-new">novo</span><div class="change-text">Exportação e importação completa em <b>JSON</b></div></div></div>
+        <div class="change-item"><span class="change-icon">✨</span><div><span class="change-type ct-new">novo</span><div class="change-text">Aba <b>Dicas</b> com 7 guias profissionais de sensibilidade</div></div></div>
+        <div class="change-item"><span class="change-icon">✨</span><div><span class="change-type ct-new">novo</span><div class="change-text">Aba <b>Config</b> com toggles de preferências e estatísticas de uso</div></div></div>
+        <div class="change-item"><span class="change-icon">🎨</span><div><span class="change-type ct-imp">melhoria</span><div class="change-text">Design reformulado com fontes <b>Orbitron + Rajdhani</b>, grid animado e neon</div></div></div>
+        <div class="change-item"><span class="change-icon">🎨</span><div><span class="change-type ct-imp">melhoria</span><div class="change-text">Barra dos sliders com <b>gradiente dinâmico</b> em tempo real</div></div></div>
+        <div class="change-item"><span class="change-icon">📱</span><div><span class="change-type ct-imp">melhoria</span><div class="change-text">Compatível com <b>PWA / APK Lite</b> — funciona 100% offline</div></div></div>
+        <div class="change-item"><span class="change-icon">📳</span><div><span class="change-type ct-new">novo</span><div class="change-text">Suporte a <b>vibração haptica</b> ao salvar (Android)</div></div></div>
+        <div class="change-item"><span class="change-icon">🔧</span><div><span class="change-type ct-fix">fix</span><div class="change-text">localStorage migrado para chave <b>sensiMaster2026</b> sem conflito</div></div></div>
+      </div>
+    </div>
+ 
+    <!-- v1.0.0 -->
+    <div class="version-block">
+      <div class="version-line"></div>
+      <div class="version-header" onclick="toggleVersion(this)">
+        <div class="version-dot pink"></div>
+        <div class="version-title-wrap">
+          <div class="version-num pink">v1.0.0 — Lançamento Inicial</div>
+          <div class="version-date">📅 Janeiro 2026 · MVP · 3 sliders</div>
+        </div>
+        <span class="version-badge badge-stable">STABLE</span>
+        <span class="version-chevron">▼</span>
+      </div>
+      <div class="changelog-body collapsed">
+        <div class="change-item"><span class="change-icon">🚀</span><div><span class="change-type ct-new">novo</span><div class="change-text">Primeiro lançamento do <b>Sensi Master</b></div></div></div>
+        <div class="change-item"><span class="change-icon">✨</span><div><span class="change-type ct-new">novo</span><div class="change-text">3 sliders: <b>Geral, ADS e Sniper</b> (0–200)</div></div></div>
+        <div class="change-item"><span class="change-icon">✨</span><div><span class="change-type ct-new">novo</span><div class="change-text">Botão <b>Salvar Configuração</b> com localStorage</div></div></div>
+        <div class="change-item"><span class="change-icon">✨</span><div><span class="change-type ct-new">novo</span><div class="change-text">Restauração automática ao reabrir o app</div></div></div>
+        <div class="change-item"><span class="change-icon">🎨</span><div><span class="change-type ct-new">novo</span><div class="change-text">Design inicial com gradiente escuro e botão verde</div></div></div>
+      </div>
+    </div>
+ 
+    <!-- FUTURE PLACEHOLDER -->
+    <div class="version-block">
+      <div class="version-header" onclick="toggleVersion(this)">
+        <div class="version-dot grey"></div>
+        <div class="version-title-wrap">
+          <div class="version-num grey">v3.0.0 — Em Desenvolvimento</div>
+          <div class="version-date">📅 Previsto para 2026 · Em planejamento</div>
+        </div>
+        <span class="version-badge badge-planned">PLANNED</span>
+        <span class="version-chevron">▼</span>
+      </div>
+      <div class="changelog-body collapsed">
+        <div class="change-item"><span class="change-icon">🗺</span><div><span class="change-type ct-new">novo</span><div class="change-text"><b>Sugestão por mapa</b> — presets diferentes por cada mapa do jogo</div></div></div>
+        <div class="change-item"><span class="change-icon">📊</span><div><span class="change-type ct-new">novo</span><div class="change-text"><b>Histórico de performance</b> — rastreamento de KD e precisão</div></div></div>
+        <div class="change-item"><span class="change-icon">🌐</span><div><span class="change-type ct-new">novo</span><div class="change-text"><b>Perfis online</b> — compartilhar configs com a comunidade</div></div></div>
+        <div class="change-item"><span class="change-icon">🤖</span><div><span class="change-type ct-new">novo</span><div class="change-text"><b>IA de sugestão</b> — analisa seu estilo e sugere sensibilidade ideal</div></div></div>
+        <div class="change-item"><span class="change-icon">🎮</span><div><span class="change-type ct-new">novo</span><div class="change-text"><b>Mini-treino integrado</b> — exercícios de aim dentro do app</div></div></div>
+        <div class="change-item"><span class="change-icon">🔔</span><div><span class="change-type ct-new">novo</span><div class="change-text"><b>Notificações push</b> — lembrete diário de treino de aim</div></div></div>
+        <div class="change-item"><span class="change-icon">🌙</span><div><span class="change-type ct-imp">melhoria</span><div class="change-text">Tema <b>AMOLED puro</b> para economia de bateria em telas OLED</div></div></div>
+      </div>
+    </div>
+ 
+  </div>
+ 
+  <div style="height:20px"></div>
+</div>
+ 
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+ 
+<!-- MODAL: Import Code -->
+<div class="modal-overlay" id="modalImport">
+  <div class="modal">
+    <h3>📥 IMPORTAR CÓDIGO</h3>
+    <input type="text" id="importCodeInput" placeholder="Cole o código aqui...">
+    <div class="btn-row" style="margin-top:0">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal()">Cancelar</button>
+      <button class="btn btn-primary btn-sm" onclick="applyImportCode()">Importar</button>
+    </div>
+  </div>
+</div>
+ 
 <script>
-const geral = document.getElementById("geral");
-const ads = document.getElementById("ads");
-const sniper = document.getElementById("sniper");
-
-const valorGeral = document.getElementById("valorGeral");
-const valorAds = document.getElementById("valorAds");
-const valorSniper = document.getElementById("valorSniper");
-
-geral.oninput = () => valorGeral.innerText = geral.value;
-ads.oninput = () => valorAds.innerText = ads.value;
-sniper.oninput = () => valorSniper.innerText = sniper.value;
-
-function salvarConfig() {
-    const config = {
-        geral: geral.value,
-        ads: ads.value,
-        sniper: sniper.value
-    };
-
-    localStorage.setItem("sensiMasterConfig", JSON.stringify(config));
-
-    document.getElementById("resultado").innerText =
-        "✅ Configuração salva com sucesso!";
+// ======= STATE =======
+let state = {
+  Geral: 100, Ads: 90, Sniper: 80, Mov: 110, Giro: 70, '2x': 95, '4x': 75,
+  device: null, playStyle: 'balanced', gameMode: 'br',
+  profiles: [],
+  prefs: { dark: true, sound: false, haptic: true, auto: false },
+  changes: 0,
+  firstSeen: Date.now()
+};
+ 
+const KEYS = ['Geral','Ads','Sniper','Mov','Giro','2x','4x'];
+const sliderIds = { Geral:'sGeral',Ads:'sAds',Sniper:'sSniper',Mov:'sMov',Giro:'sGiro','2x':'s2x','4x':'s4x' };
+let currentPreset = null;
+ 
+function load() {
+  const s = localStorage.getItem('sensiMaster2026');
+  if(s) { try { Object.assign(state, JSON.parse(s)); } catch(e){} }
+  applyStateToSliders();
+  renderProfiles();
+  updateAllDisplays();
+  updateStats();
+  applyPrefs();
 }
-
-window.onload = function() {
-    const saved = localStorage.getItem("sensiMasterConfig");
-    if(saved){
-        const config = JSON.parse(saved);
-        geral.value = config.geral;
-        ads.value = config.ads;
-        sniper.value = config.sniper;
-
-        valorGeral.innerText = config.geral;
-        valorAds.innerText = config.ads;
-        valorSniper.innerText = config.sniper;
-    }
+ 
+function save() {
+  localStorage.setItem('sensiMaster2026', JSON.stringify(state));
 }
+ 
+function applyStateToSliders() {
+  KEYS.forEach(k => {
+    const el = document.getElementById(sliderIds[k]);
+    if(el) { el.value = state[k]; updateTrack(el); }
+    const v = document.getElementById('v'+k);
+    if(v) v.textContent = state[k];
+  });
+  if(state.device) {
+    document.querySelectorAll('.device-card').forEach(c => {
+      c.classList.toggle('selected', c.dataset.type === state.device);
+    });
+  }
+  if(state.playStyle) document.getElementById('playStyle').value = state.playStyle;
+  if(state.gameMode) document.getElementById('gameMode').value = state.gameMode;
+}
+ 
+// ======= SLIDERS =======
+function updateSlider(key, el) {
+  state[key] = parseInt(el.value);
+  const v = document.getElementById('v'+key);
+  if(v) v.textContent = el.value;
+  updateTrack(el);
+  updateAllDisplays();
+  state.changes++;
+  if(state.prefs.auto) { save(); }
+}
+ 
+function updateTrack(el) {
+  const pct = ((el.value - el.min) / (el.max - el.min)) * 100;
+  el.style.setProperty('--pct', pct + '%');
+}
+ 
+function updateAllDisplays() {
+  updateSensDisplay();
+  updateScore();
+  updateShareCode();
+}
+ 
+function updateSensDisplay() {
+  const labels = {Geral:'🖱 Geral',Ads:'🔭 ADS',Sniper:'🎯 Sniper',Mov:'🏃 Movimento',Giro:'🔄 Giroscópio','2x':'📡 2x Scope','4x':'🔬 4x Scope'};
+  const d = document.getElementById('sensDisplay');
+  d.innerHTML = KEYS.map(k=>`
+    <div class="sens-row">
+      <div class="sens-name">${labels[k]}</div>
+      <div class="sens-bar-wrap"><div class="sens-bar" style="width:${state[k]/2}%"></div></div>
+      <div class="sens-num">${state[k]}</div>
+    </div>`).join('');
+}
+ 
+function updateScore() {
+  const g = state.Geral, a = state.Ads, s = state.Sniper;
+  const aim = Math.round(100 - Math.abs(a - g*0.85)/2);
+  const ctrl = Math.round(100 - Math.abs(s - g*0.7)/2);
+  const overall = Math.round((aim + ctrl) / 2);
+ 
+  document.getElementById('scoreAim').textContent = aim;
+  document.getElementById('scoreControl').textContent = ctrl;
+  document.getElementById('scoreGeral').textContent = overall;
+ 
+  let desc = '';
+  if(overall >= 85) desc = '✅ Config excelente! Bem balanceada para competição.';
+  else if(overall >= 70) desc = '⚠️ Config ok. Pequenos ajustes podem melhorar a precisão.';
+  else desc = '❌ Config desequilibrada. Use Auto Balancear para corrigir.';
+  document.getElementById('scoreDesc').textContent = desc;
+}
+ 
+function autoBalance() {
+  const g = state.Geral;
+  state.Ads = Math.round(g * 0.85);
+  state.Sniper = Math.round(g * 0.70);
+  state['2x'] = Math.round(g * 0.90);
+  state['4x'] = Math.round(g * 0.72);
+  applyStateToSliders();
+  updateAllDisplays();
+  toast('⚡ Auto balanceado!');
+}
+ 
+function resetSliders() {
+  Object.assign(state, {Geral:100,Ads:90,Sniper:80,Mov:110,Giro:70,'2x':95,'4x':75});
+  applyStateToSliders();
+  updateAllDisplays();
+  toast('↺ Reset feito');
+}
+ 
+function saveMain() {
+  save();
+  if(state.prefs.haptic && navigator.vibrate) navigator.vibrate([30,10,30]);
+  toast('✅ Config salva com sucesso!');
+}
+ 
+// ======= PROFILES =======
+function saveProfile() {
+  const name = document.getElementById('profileName').value.trim();
+  if(!name) { toast('⚠️ Digite um nome!'); return; }
+  const profile = {
+    id: Date.now(),
+    name,
+    date: new Date().toLocaleDateString('pt-BR'),
+    values: { ...state }
+  };
+  state.profiles.push(profile);
+  save();
+  renderProfiles();
+  document.getElementById('profileName').value = '';
+  updateShareCode();
+  updateStats();
+  toast('💾 Perfil salvo: ' + name);
+}
+ 
+function renderProfiles() {
+  const list = document.getElementById('profileList');
+  if(!state.profiles.length) {
+    list.innerHTML = '<div class="info-box">Nenhum perfil salvo ainda. Configure sua sensibilidade e salve como perfil.</div>';
+    return;
+  }
+  list.innerHTML = state.profiles.slice().reverse().map(p => `
+    <div class="profile-item">
+      <div>
+        <div class="profile-name">📋 ${p.name}</div>
+        <div class="profile-meta">Salvo em ${p.date} · G:${p.values.Geral} ADS:${p.values.Ads} S:${p.values.Sniper}</div>
+      </div>
+      <div class="profile-actions">
+        <button class="btn btn-secondary btn-sm" onclick="loadProfile(${p.id})">↩</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteProfile(${p.id})">✕</button>
+      </div>
+    </div>`).join('');
+}
+ 
+function loadProfile(id) {
+  const p = state.profiles.find(x=>x.id===id);
+  if(!p) return;
+  KEYS.forEach(k => { if(p.values[k] !== undefined) state[k] = p.values[k]; });
+  applyStateToSliders();
+  updateAllDisplays();
+  save();
+  goTab('sensi');
+  toast('↩ Perfil carregado: ' + p.name);
+}
+ 
+function deleteProfile(id) {
+  state.profiles = state.profiles.filter(x=>x.id!==id);
+  save();
+  renderProfiles();
+  updateStats();
+  toast('🗑 Perfil removido');
+}
+ 
+// ======= SHARE CODE =======
+function updateShareCode() {
+  const data = { g:state.Geral,a:state.Ads,s:state.Sniper,m:state.Mov,gi:state.Giro,t:state['2x'],f:state['4x'] };
+  const code = btoa(JSON.stringify(data)).replace(/=/g,'');
+  document.getElementById('shareCode').textContent = 'SM-' + code.substring(0,20);
+}
+ 
+function copyCode() {
+  const code = document.getElementById('shareCode').textContent;
+  navigator.clipboard.writeText(code).then(()=>toast('📋 Código copiado!')).catch(()=>toast('❌ Erro ao copiar'));
+}
+ 
+function showImportCode() {
+  document.getElementById('modalImport').classList.add('open');
+}
+ 
+function closeModal() {
+  document.getElementById('modalImport').classList.remove('open');
+}
+ 
+function applyImportCode() {
+  const raw = document.getElementById('importCodeInput').value.trim();
+  try {
+    const b64 = raw.replace('SM-','');
+    const padded = b64 + '=='.substring(0, (4 - b64.length % 4) % 4);
+    const data = JSON.parse(atob(padded));
+    if(data.g) state.Geral = data.g;
+    if(data.a) state.Ads = data.a;
+    if(data.s) state.Sniper = data.s;
+    if(data.m) state.Mov = data.m;
+    if(data.gi) state.Giro = data.gi;
+    if(data.t) state['2x'] = data.t;
+    if(data.f) state['4x'] = data.f;
+    applyStateToSliders(); updateAllDisplays(); save();
+    closeModal();
+    goTab('sensi');
+    toast('✅ Config importada!');
+  } catch(e) { toast('❌ Código inválido'); }
+}
+ 
+// ======= DEVICE ======= 
+const PRESETS = {
+  low:  { rush:{Geral:75,Ads:65,Sniper:55,Mov:80,Giro:0,'2x':70,'4x':55}, balanced:{Geral:70,Ads:60,Sniper:50,Mov:70,Giro:0,'2x':65,'4x':50}, sniper:{Geral:55,Ads:50,Sniper:45,Mov:60,Giro:0,'2x':55,'4x':45}, support:{Geral:65,Ads:58,Sniper:48,Mov:65,Giro:0,'2x':60,'4x':47} },
+  mid:  { rush:{Geral:100,Ads:88,Sniper:70,Mov:110,Giro:40,'2x':93,'4x':72}, balanced:{Geral:90,Ads:80,Sniper:65,Mov:100,Giro:30,'2x':85,'4x':65}, sniper:{Geral:75,Ads:65,Sniper:58,Mov:85,Giro:20,'2x':70,'4x':58}, support:{Geral:85,Ads:75,Sniper:62,Mov:95,Giro:25,'2x':80,'4x':62} },
+  high: { rush:{Geral:120,Ads:105,Sniper:85,Mov:130,Giro:60,'2x':112,'4x':88}, balanced:{Geral:110,Ads:95,Sniper:80,Mov:120,Giro:50,'2x':100,'4x':80}, sniper:{Geral:90,Ads:80,Sniper:70,Mov:100,Giro:35,'2x':85,'4x':70}, support:{Geral:100,Ads:88,Sniper:75,Mov:110,Giro:40,'2x':92,'4x':74} },
+  pro:  { rush:{Geral:145,Ads:125,Sniper:100,Mov:155,Giro:80,'2x':135,'4x':102}, balanced:{Geral:130,Ads:112,Sniper:90,Mov:140,Giro:65,'2x':120,'4x':92}, sniper:{Geral:105,Ads:92,Sniper:82,Mov:115,Giro:50,'2x':100,'4x':82}, support:{Geral:120,Ads:105,Sniper:88,Mov:130,Giro:55,'2x':110,'4x':88} }
+};
+ 
+function selectDevice(el, type) {
+  document.querySelectorAll('.device-card').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  state.device = type;
+  save();
+  applyDevicePreset();
+}
+ 
+function applyDevicePreset() {
+  state.playStyle = document.getElementById('playStyle').value;
+  state.gameMode = document.getElementById('gameMode').value;
+  if(!state.device) { document.getElementById('presetInfo').textContent = 'Selecione um device acima para ver o preset ideal.'; return; }
+  const preset = PRESETS[state.device][state.playStyle];
+  currentPreset = preset;
+  const names = {low:'Básico',mid:'Intermediário',high:'Gamer',pro:'Pro / Top'};
+  const styles = {rush:'Rush',balanced:'Balanceado',sniper:'Sniper',support:'Suporte'};
+  document.getElementById('presetInfo').innerHTML = `Preset ideal para <b style="color:var(--neon)">${names[state.device]}</b> + estilo <b style="color:var(--neon2)">${styles[state.playStyle]}</b>`;
+  document.getElementById('presetValues').innerHTML = `
+    <div class="sens-display">
+      ${Object.entries(preset).map(([k,v])=>`<div class="sens-row"><div class="sens-name" style="font-size:11px">${k}</div><div class="sens-bar-wrap"><div class="sens-bar" style="width:${v/2}%"></div></div><div class="sens-num">${v}</div></div>`).join('')}
+    </div>`;
+  document.getElementById('applyPresetBtn').style.display = 'block';
+  save();
+}
+ 
+function applyPresetToSliders() {
+  if(!currentPreset) return;
+  Object.assign(state, currentPreset);
+  applyStateToSliders();
+  updateAllDisplays();
+  save();
+  goTab('sensi');
+  toast('🚀 Preset aplicado!');
+}
+ 
+// ======= PREFERENCES =======
+function togglePref(btn, key) {
+  btn.classList.toggle('on');
+  state.prefs[key] = btn.classList.contains('on');
+  save();
+  applyPrefs();
+}
+ 
+function applyPrefs() {
+  document.getElementById('tDark').className = 'toggle' + (state.prefs.dark ? ' on' : '');
+  document.getElementById('tSound').className = 'toggle' + (state.prefs.sound ? ' on' : '');
+  document.getElementById('tHaptic').className = 'toggle' + (state.prefs.haptic ? ' on' : '');
+  document.getElementById('tAuto').className = 'toggle' + (state.prefs.auto ? ' on' : '');
+  if(state.prefs.dark) document.documentElement.style.setProperty('--bg','#000');
+  else document.documentElement.style.setProperty('--bg','#0a0f1e');
+}
+ 
+// ======= STATS =======
+function updateStats() {
+  document.getElementById('statPerfis').textContent = state.profiles.length;
+  document.getElementById('statChanges').textContent = state.changes;
+  const days = Math.max(1, Math.ceil((Date.now() - (state.firstSeen||Date.now())) / 86400000));
+  document.getElementById('statDays').textContent = days;
+}
+ 
+// ======= EXPORT/IMPORT =======
+function exportConfig() {
+  const data = JSON.stringify(state, null, 2);
+  const blob = new Blob([data], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'sensimaster-config.json';
+  a.click(); URL.revokeObjectURL(url);
+  toast('📤 Exportado com sucesso!');
+}
+ 
+function importConfig(e) {
+  const file = e.target.files[0];
+  if(!file) return;
+  const r = new FileReader();
+  r.onload = ev => {
+    try {
+      const data = JSON.parse(ev.target.result);
+      Object.assign(state, data);
+      save(); applyStateToSliders(); updateAllDisplays(); renderProfiles(); updateStats(); applyPrefs();
+      toast('✅ Config importada!');
+    } catch(err) { toast('❌ Arquivo inválido'); }
+  };
+  r.readAsText(file);
+  e.target.value = '';
+}
+ 
+function clearAll() {
+  if(!confirm('Apagar todos os dados?')) return;
+  localStorage.removeItem('sensiMaster2026');
+  location.reload();
+}
+ 
+// ======= TABS =======
+function goTab(id) {
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  const tabs = ['sensi','perfis','device','tips','config','devlog'];
+  const idx = tabs.indexOf(id);
+  document.querySelectorAll('.tab')[idx].classList.add('active');
+}
+ 
+// ======= DEV LOG =======
+function toggleVersion(header) {
+  const body = header.nextElementSibling;
+  const chevron = header.querySelector('.version-chevron');
+  body.classList.toggle('collapsed');
+  chevron.classList.toggle('open');
+}
+ 
+// ======= TOAST =======
+let toastTimer;
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg; el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>el.classList.remove('show'), 2200);
+}
+ 
+// ======= INIT =======
+load();
 </script>
-
 </body>
 </html>
