@@ -1,152 +1,125 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sensi Master 2026 - v0.1.4</title>
-    <style>
-        :root {
-            --primary: #00ffcc;
-            --bg: #0f172a;
-            --card: #1e293b;
-            --text: #f8fafc;
-            --inactive: #64748b;
-        }
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { base44 } from "@/api/base44Client";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { LogIn, Mail, Lock, Loader2 } from "lucide-react";
+import AuthLayout from "@/components/AuthLayout";
+import GoogleIcon from "@/components/GoogleIcon";
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            display: flex; justify-content: center;
-            padding: 20px;
-        }
+export default function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-        .app-container { width: 100%; max-width: 420px; }
-
-        h1 { text-align: center; color: var(--primary); margin-bottom: 15px; font-size: 22px; }
-
-        /* ── LOGICA DE ABAS ── */
-        .tab-nav {
-            display: flex;
-            background: var(--card);
-            border-radius: 10px;
-            margin-bottom: 20px;
-            padding: 5px;
-        }
-
-        .tab-btn {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            background: transparent;
-            color: var(--inactive);
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-            border-radius: 8px;
-        }
-
-        .tab-btn.active {
-            background: var(--primary);
-            color: var(--bg);
-        }
-
-        .tab-content { display: none; }
-        .tab-content.active { display: block; animation: fadeIn 0.4s; }
-
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        /* ── CARDS E INPUTS ── */
-        .card {
-            background: var(--card);
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-
-        .control-group { margin-bottom: 15px; }
-        label { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px; }
-        .val { color: var(--primary); font-weight: bold; }
-
-        input[type="range"] { width: 100%; accent-color: var(--primary); }
-
-        .btn-save {
-            width: 100%; padding: 15px; background: var(--primary);
-            color: var(--bg); border: none; border-radius: 8px;
-            font-weight: bold; cursor: pointer; margin-top: 10px;
-        }
-
-        .history-list { font-size: 13px; line-height: 1.6; color: #94a3b8; }
-    </style>
-</head>
-<body>
-
-<div class="app-container">
-    <h1>Sensi Master 2026</h1>
-
-    <div class="tab-nav">
-        <button class="tab-btn active" onclick="openTab(event, 'config')">CONFIG</button>
-        <button class="tab-btn" onclick="openTab(event, 'history')">LOGS</button>
-    </div>
-
-    <div id="config" class="tab-content active">
-        <div class="card">
-            <div class="control-group">
-                <label>GERAL <span class="val" id="v-geral">100</span></label>
-                <input type="range" id="geral" min="0" max="200" value="100">
-            </div>
-            <div class="control-group">
-                <label>RED DOT <span class="val" id="v-red">100</span></label>
-                <input type="range" id="red" min="0" max="200" value="100">
-            </div>
-            <button class="btn-save" onclick="alert('Salvo!')">SALVAR SETTINGS</button>
-        </div>
-    </div>
-
-    <div id="history" class="tab-content">
-        <div class="card">
-            <h3 style="color:var(--primary); margin-bottom: 10px;">Dev Log v0.1.4</h3>
-            <div class="history-list">
-                • Adicionado sistema de abas dinâmicas.<br>
-                • Correção de bug no salvamento de DPI.<br>
-                • Melhoria na performance do DOM.<br>
-                • Preparação para o banco de dados v2.
-            </div>
-        </div>
-    </div>
-
-    <p style="text-align: center; font-size: 10px; opacity: 0.4; margin-top: 20px;">
-        techpaulo200 build_v0.1.4_stable
-    </p>
-</div>
-
-<script>
-    // Função de Troca de Abas
-    function openTab(evt, tabName) {
-        let contents = document.getElementsByClassName("tab-content");
-        for (let i = 0; i < contents.length; i++) {
-            contents[i].classList.remove("active");
-        }
-
-        let buttons = document.getElementsByClassName("tab-btn");
-        for (let i = 0; i < buttons.length; i++) {
-            buttons[i].classList.remove("active");
-        }
-
-        document.getElementById(tabName).classList.add("active");
-        evt.currentTarget.classList.add("active");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+    try {
+      await base44.auth.loginViaEmailPassword(email, password);
+      window.location.href = "/";
+    } catch (err) {
+      setError(err.message || "Invalid email or password");
+    } finally {
+      setLoading(false);
     }
+  };
 
-    // Atualização de Valores
-    const sliders = ['geral', 'red'];
-    sliders.forEach(id => {
-        document.getElementById(id).oninput = function() {
-            document.getElementById('v-' + id).innerText = this.value;
-        }
-    });
-</script>
+  const handleGoogle = () => {
+    base44.auth.loginWithProvider("google", "/");
+  };
 
-</body>
-</html>
+  return (
+    <AuthLayout
+      icon={LogIn}
+      title="Welcome back"
+      subtitle="Log in to your account"
+      footer={
+        <>
+          Don't have an account?{" "}
+          <Link to="/register" className="text-primary font-medium hover:underline">
+            Create one
+          </Link>
+        </>
+      }
+    >
+      <Button
+        variant="outline"
+        className="w-full h-12 text-sm font-medium mb-6"
+        onClick={handleGoogle}
+      >
+        <GoogleIcon className="w-5 h-5 mr-2" />
+        Continue with Google
+      </Button>
+
+      <div className="relative mb-6">
+        <div className="absolute inset-0 flex items-center">
+          <div className="w-full border-t border-border" />
+        </div>
+        <div className="relative flex justify-center text-xs uppercase">
+          <span className="bg-card px-3 text-muted-foreground">or</span>
+        </div>
+      </div>
+
+      {error && (
+        <div className="mb-4 p-3 rounded-lg bg-destructive/10 text-destructive text-sm">
+          {error}
+        </div>
+      )}
+
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="space-y-2">
+          <Label htmlFor="email">Email</Label>
+          <div className="relative">
+            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" aria-hidden="true" />
+            <Input
+              id="email"
+              type="email"
+              autoComplete="email"
+              autoFocus
+              placeholder="you@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="pl-10 h-12"
+              required
+            />
+          </div>
+        </div>
+        <div className="space-y-2">
+          <div className="flex items-center justify-between">
+            <Label htmlFor="password">Password</Label>
+            <Link to="/forgot-password" className="text-xs text-primary hover:underline">
+              Forgot password?
+            </Link>
+          </div>
+          <div className="relative">
+            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" aria-hidden="true" />
+            <Input
+              id="password"
+              type="password"
+              autoComplete="current-password"
+              placeholder="••••••••"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="pl-10 h-12"
+              required
+            />
+          </div>
+        </div>
+        <Button type="submit" className="w-full h-12 font-medium" disabled={loading}>
+          {loading ? (
+            <>
+              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+              Logging in...
+            </>
+          ) : (
+            "Log in"
+          )}
+        </Button>
+      </form>
+    </AuthLayout>
+  );
+}
